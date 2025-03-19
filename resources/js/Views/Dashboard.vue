@@ -4,9 +4,7 @@
 </script>
 
 <template>
-   <div>
-       <router-view></router-view>
-   </div>
+    <h1 class="text-center">Hello from Vue + TypeScript + Laravel!</h1>
 </template>
 
 <style scoped>
