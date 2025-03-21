@@ -4,8 +4,6 @@ import { useStore } from "vuex";
 
 const store = useStore<any>();
 
-console.log(store);
-
 let msg = computed(() => {
     return store.getters['home/msgGetter']
 })
@@ -14,8 +12,7 @@ let msg = computed(() => {
 
 <template>
     <div>
-        <h1 class="text-center">Hello from home</h1>
-        <h1>msg => {{ msg }}</h1>
+
     </div>
 </template>
 
