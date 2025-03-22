@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useStore } from "vuex";
+import WeclomeTitle from "../components/home/welcomeBannerComponents/weclome-title.vue";
+import TextAboutMeScroll from "../components/home/welcomeBannerComponents/text-about-me-scroll.vue";
+import MyProjects from "../components/home/my-projects.vue";
+
 
 const store = useStore<any>();
 
@@ -12,7 +16,9 @@ let msg = computed(() => {
 
 <template>
     <div>
-
+        <weclome-title></weclome-title>
+        <text-about-me-scroll></text-about-me-scroll>
+        <my-projects></my-projects>
     </div>
 </template>
 

@@ -1,0 +1,83 @@
+.text-scroll-area-container-outer {
+    align-content: center;
+    align-items: center;
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 35px;
+    height: 3000px;
+    justify-content: flex-start;
+    max-width: 1200px;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+
+    .text-scroll-area-container-inner {
+
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex: none;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        height: min-content;
+        justify-content: center;
+        max-width: 86%;
+        overflow: hidden;
+        padding: 300px 0 0;
+        position: sticky;
+        top: 0;
+        width: 100%;
+        will-change: transform;
+        z-index: 1;
+
+        .word-container-outer {
+
+            flex: none;
+            height: auto;
+            position: relative;
+            width: auto;
+            .word-container-inner {
+
+                align-content: center;
+                align-items: center;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                gap: 10px;
+                height: min-content;
+                justify-content: center;
+                overflow: visible;
+                padding: 0;
+                position: relative;
+                width: min-content;
+
+                .word-container {
+                    outline: none;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    flex-shrink: 0;
+                    --framer-link-text-color: rgb(0, 153, 255);
+                    --framer-link-text-decoration: underline;
+                    --extracted-r6o4lv: rgb(148, 163, 184);
+                    opacity: 1;
+                    transform: none;
+                    flex: none;
+                    height: auto;
+                    position: relative;
+                    white-space: pre;
+                    width: auto;
+
+                    .word {
+
+                    }
+                }
+            }
+        }
+    }
+}
