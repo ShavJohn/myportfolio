@@ -1,5 +1,43 @@
 *, body {
     padding: 0;
     margin: 0;
-    background-color: #0f172a;
+}
+
+
+//::-webkit-scrollbar{
+//    width: 10px;
+//}
+//
+//::-webkit-scrollbar-thumb{
+//    border-radius: 5px;
+//    background: #fff;
+//}
+//
+//::-webkit-scrollbar-track {
+//    background: transparent;
+//}
+
+
+/* WebKit Browsers (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #14121c; /* Dark background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ffffff; /* White scrollbar */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #7a00ff; /* Neon purple when hovering */
+}
+
+/* Hide Scrollbar Buttons (Up/Down Arrows) */
+::-webkit-scrollbar-button {
+    display: none;
 }

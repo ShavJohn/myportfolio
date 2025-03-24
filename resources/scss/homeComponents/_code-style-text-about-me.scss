@@ -1,0 +1,93 @@
+.code-style-text-about-me-container {
+    background-color: #14121c;
+    height: 500px;
+    padding: 60px
+
+}
+
+.editor-container-outer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(20, 18, 28);
+    padding: 100px 0;
+}
+
+/* Editor Container */
+.editor-container {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 800px;
+    max-width: 90%;
+    font-family: "Fira Code", monospace;
+    background-color: rgb(20, 18, 28);
+}
+
+
+/* Code Editor */
+.code-editor {
+    color: #cbd5e1;
+    padding: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: #ffffff #14121c;
+    background-color: rgb(20, 18, 28);
+}
+
+/* Custom Scrollbar */
+.code-editor::-webkit-scrollbar {
+    width: 10px;
+}
+
+.code-editor::-webkit-scrollbar-track {
+    background-color: rgb(20, 18, 28);
+}
+
+.code-editor::-webkit-scrollbar-thumb {
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+/* Code Lines */
+.code-line {
+    display: flex;
+    align-items: center;
+    padding: 3px 0;
+    transition: background 0.2s ease-in-out;
+    background-color: rgb(20, 18, 28);
+}
+
+.code-line:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.line-number {
+    display: inline-block;
+    width: 30px;
+    color: #64748b;
+    text-align: right;
+    padding-right: 10px;
+    user-select: none;
+    background-color: rgb(20, 18, 28);
+    font-size: 18px;
+}
+
+.code-text {
+    flex: 1;
+    white-space: pre-wrap;
+    background-color: rgb(20, 18, 28);
+    font-size: 18px;
+}
+
+/* Syntax Highlighting */
+.editor-class { color: rgb(89, 24, 223); font-weight: bold; }
+.editor-class-name { color: rgb(238, 255, 49); }
+.editor-function { color: #86efac; }
+.editor-dots { color:rgb(59, 53, 83); }
+.editor-this { color:rgb(227, 36, 76); }
+.editor-value-name { color: rgb(36, 227, 148); }
+.editor-equal { color: rgb(227, 36, 76); }
+.editor-return { color: rgb(89, 24, 223); }
+.editor-string { color: #facc15; }
+.editor-comment { color: #94a3b8; font-style: italic; }
+.editor-number { color: #f472b6; }
+.editor-boolean { color: #c084fc; font-weight: bold; }

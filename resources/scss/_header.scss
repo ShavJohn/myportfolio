@@ -1,20 +1,23 @@
 .header {
     padding: 25px 20px;
+    background-color: #0f172a;
 
     .nav {
         display: flex;
         width: 100%;
-        justify-content: space-between;
         color: #fff;
         font-family: sans-serif;
         font-weight: 700;
+        position: relative;
 
         .logo {
-            display: flex;
-            align-items: center;
+            position: absolute;
             cursor: pointer;
             font-size: 20px;
             transition: color .5s ease-in-out;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
 
             &:hover {
                 color: #e5e5e5;
@@ -23,87 +26,94 @@
     }
 }
 @media screen and (min-width: 700px) {
-    .nav-links {
-        display: flex;
-        gap: 20px;
-        list-style: none;
-        text-decoration: none;
 
-        li {
-            cursor: pointer;
-            padding: 5px;
+    .nav {
+        justify-content: center;
 
-            .menu-item {
-                transition: color .5s ease-in-out;
-            }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            text-decoration: none;
 
+            li {
+                cursor: pointer;
+                padding: 5px;
 
-            &:hover {
                 .menu-item {
-                    color: #e5e5e5;
+                    transition: color .5s ease-in-out;
                 }
-            }
 
-            a {
-                text-decoration: none;
-                font-size: 16px;
 
-                &:hover, &:focus {
+                &:hover {
+                    .menu-item {
+                        color: #e5e5e5;
+                    }
+                }
+
+                a {
                     text-decoration: none;
-                    outline: none;
+                    font-size: 16px;
+
+                    &:hover, &:focus {
+                        text-decoration: none;
+                        outline: none;
+                    }
+
+                    &:active, &:visited {
+                        color: #fff;
+                    }
                 }
 
-                &:active, &:visited {
-                    color: #fff;
-                }
             }
-
         }
     }
 
     .actions {
-
-        .menu-btn {
-            display: none;
-        }
+        display: none;
     }
 }
 
 @media screen and (max-width: 700px) {
-    .nav-links {
-        z-index: 20;
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: 250px;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 30px;
-        padding-top: 60px;
-        transform: translateX(100%); // Initially hidden
-        transition: transform 0.4s ease-in-out;
+    .nav {
+        justify-content: end;
 
-        li {
-            width: 100%;
-            text-align: left;
-            list-style: none;
+        .nav-links {
+            z-index: 20;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 250px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding-top: 60px;
+            transform: translateX(100%); // Initially hidden
+            transition: transform 0.4s ease-in-out;
+            background-color: #0f172a;
 
-            .menu-item {
-                color: #fff;
-                font-size: 18px;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-left: 25px;
-                display: block;
+            li {
                 width: 100%;
-                transition: background 0.3s ease-in-out;
-                text-decoration: none;
+                text-align: left;
+                list-style: none;
 
-                &:hover {
-                    background-color: #5e5efa; // Highlight on hover
+                .menu-item {
                     color: #fff;
+                    font-size: 18px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    padding-left: 25px;
+                    display: block;
+                    width: 100%;
+                    transition: background 0.3s ease-in-out;
+                    text-decoration: none;
+
+                    &:hover {
+                        background-color: #5e5efa; // Highlight on hover
+                        color: #fff;
+                    }
                 }
             }
         }

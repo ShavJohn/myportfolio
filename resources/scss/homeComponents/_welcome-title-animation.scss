@@ -1,0 +1,36 @@
+.welcome-title-animation-container {
+
+    display: flex;
+    justify-content: left;
+    height: 90vh;
+    align-items: center;
+    padding: 0 10vw;
+    background-color: #0f172a;
+
+    .welcome-title-animation {
+        font-size: 35px;
+        color: white;
+        font-family: sans-serif;
+    }
+
+    .container {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .glitch {
+        display: inline-block;
+        position: relative;
+        transition: color 0.1s ease-in-out;
+    }
+
+    .developer-name {
+        color: #7a00ff;;
+    }
+}
