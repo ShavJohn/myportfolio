@@ -4,8 +4,11 @@
 </script>
 
 <template>
-    <div style="padding: 500px">
-
+    <div class="footer">
+        <div>
+            <div>My Linkdin</div>
+            <div>my GitHub</div>
+        </div>
     </div>
 </template>
 

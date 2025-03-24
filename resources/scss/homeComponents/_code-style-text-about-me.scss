@@ -17,7 +17,7 @@
 .editor-container {
     border-radius: 10px;
     overflow: hidden;
-    width: 800px;
+    width: 65vw;
     max-width: 90%;
     font-family: "Fira Code", monospace;
     background-color: rgb(20, 18, 28);
@@ -68,7 +68,7 @@
     padding-right: 10px;
     user-select: none;
     background-color: rgb(20, 18, 28);
-    font-size: 18px;
+    font-size: 22px;
 }
 
 .code-text {
@@ -78,10 +78,25 @@
     font-size: 18px;
 }
 
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+.text-indicator {
+    display: inline-block;
+    width: 2px;
+    height: 24px;
+    background-color: white;
+    animation: blink 1s infinite;
+    position: relative;
+    top: 4px;
+    margin-right: 4px;
+}
+
 /* Syntax Highlighting */
 .editor-class { color: rgb(89, 24, 223); font-weight: bold; }
 .editor-class-name { color: rgb(238, 255, 49); }
-.editor-function { color: #86efac; }
+.editor-function { color: rgb(238, 255, 49); }
 .editor-dots { color:rgb(59, 53, 83); }
 .editor-this { color:rgb(227, 36, 76); }
 .editor-value-name { color: rgb(36, 227, 148); }
