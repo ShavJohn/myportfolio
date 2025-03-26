@@ -4,6 +4,8 @@ import { onMounted, ref, onBeforeUnmount } from "vue";
 const progress = ref(0); // Reactive reference for progress bar
 const container = ref<HTMLElement | null>(null); // Reference to the container element
 
+const sections = ref<HTMLElement[]>([]);
+
 // Function to update the progress bar height based on the scroll position within the component
 function updateScrollProgress() {
     if (!container.value) return;
@@ -51,6 +53,18 @@ function updateScrollProgress() {
 // Add event listener for scroll event
 onMounted(() => {
     window.addEventListener("scroll", updateScrollProgress);
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+        });
+    }, {
+        threshold: 1, // Trigger when 20% of the element is visible
+    });
+
+    sections.value.forEach((section) => observer.observe(section));
 });
 
 // Clean up when component is unmounted
@@ -70,8 +84,8 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- About Me Details -->
-        <div class="bout-me-details-container">
-            <div class="about-me" v-for="i in 6" :key="i">
+        <div class="about-me-details-container">
+            <div class="about-me" v-for="i in 6" :key="i" ref="sections">
                 <div class="about-me-year">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
@@ -81,7 +95,7 @@ onBeforeUnmount(() => {
                     <p class="job-description">Some job details for testing. Some job details for testing. Some job details for testing.</p>
                 </div>
             </div>
-            <div class="about-me" v-for="i in 6" :key="i">
+            <div class="about-me" v-for="i in 6" :key="i" ref="sections">
                 <div class="about-me-year">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
@@ -96,62 +110,5 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped lang="scss">
-.about-me-container {
-    min-height: 60vh; /* Full viewport height */
-    display: flex;
-    justify-content: center;
-    background-color: #0f172a;
-    color: white;
-    padding: 50px 0 50px;
-    gap: 30px;
-
-    .progress-bar-container {
-        width: 5px;
-        background-color: white;
-        border-radius: 20px;
-        position: relative;
-
-        .progress-bar {
-            background-color: #7a00ff;
-        }
-
-        .progress-circle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #7a00ff;
-            transform: translateX(-40%);
-            position: absolute;
-        }
-    }
-
-    .bout-me-details-container {
-        .about-me{
-            margin-top: 100px;
-            display: flex;
-            align-items: center;
-            gap: 30px;
-
-            .about-me-year {
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .about-me-details {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-            }
-
-            &:first-of-type {
-                margin-top: 0;
-            }
-        }
-
-    }
-
-}
-
 
 </style>

@@ -1,4 +1,5 @@
 import { createApp, DirectiveBinding  } from 'vue';
+import './bootstrap';
 import App from './Views/App.vue';
 import router from "./router";
 import store from "./vuex"
