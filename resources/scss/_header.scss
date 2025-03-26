@@ -12,7 +12,6 @@
 
         .logo {
             position: absolute;
-            cursor: pointer;
             font-size: 20px;
             transition: color .5s ease-in-out;
             left: 0;
@@ -37,7 +36,6 @@
             text-decoration: none;
 
             li {
-                cursor: pointer;
                 padding: 5px;
 
                 .menu-item {
@@ -130,7 +128,6 @@
 
         .menu-btn {
             display: block;
-            cursor: pointer;
             background-color: transparent;
             outline: none;
             border: none;

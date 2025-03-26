@@ -1,8 +1,50 @@
 .footer {
-    padding: 100px 0;
+    padding: 100px 0 30px;
     display: flex;
     justify-content: center;
     background-color: #0e0d10;
+    flex-direction: column;
 
+    .footer-menu {
+        display: flex;
+        justify-content: center;
+        gap: 80px;
+
+        ul {
+            text-decoration: none;
+            list-style: none;
+            color: white;
+
+            li {
+                margin-top: 15px;
+                font-size: 18px;
+                font-family: sans-serif;
+
+                a {
+                    text-decoration: none;
+                    color: white;
+                }
+
+                &:first-of-type {
+                    margin-top: 0;
+                }
+
+                svg {
+                    margin-right: 20px;
+                    font-size: 22px;
+                }
+            }
+        }
+
+
+    }
+
+    .all-right-reserved {
+        text-align: center;
+        color: white;
+        font-size: 18px;
+        margin-top: 40px
+    ;
+    }
 
 }

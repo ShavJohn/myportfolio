@@ -3,9 +3,15 @@ import vuex from '../vuex'
 
 import Home from '../Views/Home.vue'
 import Dashboard from '../Views/Dashboard.vue'
+import AboutMe from '../Views/About-me.vue'
+import Project from '../Views/Projects.vue'
+import ContactMe from '../Views/Contact-me.vue'
 
 const routes: Object = [
     { path: '/', component: Home, name: "Home", meta: { title: "Home" }},
+    { path: '/about',  component: AboutMe, name: "AboutMe", meta: { title: "About me" }},
+    { path: '/project',  component: Project, name: "Project", meta: { title: "Project" }},
+    { path: '/contact-me',  component: ContactMe, name: "ContactMe", meta: { title: "Contact me" }},
     { path: '/dashboard', component: Dashboard, name: "Dashboard", meta: { title: "Dashboard" }}
 ]
 

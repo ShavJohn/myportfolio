@@ -41,10 +41,10 @@ function runMyCode() {
 
             <!-- Mobile Sidebar Menu -->
             <ul :class="['nav-links', { open: isMobileMenuOpen }]">
-                <li><a href="#" class="menu-item" @click="closeMenu">Home</a></li>
-                <li><a href="#" class="menu-item" @click="closeMenu">About</a></li>
-                <li><a href="#" class="menu-item" @click="closeMenu">Projects</a></li>
-                <li><a href="#" class="menu-item" @click="closeMenu">Contact me</a></li>
+                <li @click="$router.push({name: 'Home'})"><a href="#" class="menu-item" @click="closeMenu">Home</a></li>
+                <li @click="$router.push({name: 'AboutMe'})"><a href="#" class="menu-item" @click="closeMenu">About me</a></li>
+                <li @click="$router.push({name: 'Project'})"><a href="#" class="menu-item" @click="closeMenu">Projects</a></li>
+                <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Contact me</a></li>
             </ul>
 
             <div class="actions">

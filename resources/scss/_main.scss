@@ -41,3 +41,41 @@
 ::-webkit-scrollbar-button {
     display: none;
 }
+
+/* Hide default cursor */
+* {
+    cursor: none;
+}
+
+// General cursor styles
+.cursor-dot,
+.cursor-circle {
+    position: fixed;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+// Small dot cursor
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+// Outer circle (delayed effect)
+.cursor-circle {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transition: transform 0.1s ease-out, width 0.2s ease-out, height 0.2s ease-out;
+}
+
+// Expand circle on hover
+.cursor-circle.hovered {
+    width: 40px;
+    height: 40px;
+    border-color: rgba(255, 255, 255, 1);
+}
