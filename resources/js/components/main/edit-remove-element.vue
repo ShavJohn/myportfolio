@@ -4,8 +4,7 @@
 
 <template>
     <div class="action-buttons-container">
-        <button class="action-btn"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-        <button class="action-btn"><font-awesome-icon icon="fa-solid fa-x" /></button>
+        <slot name="buttons"></slot>
     </div>
 </template>
 

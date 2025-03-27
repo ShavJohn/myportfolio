@@ -4,6 +4,7 @@ import { ref, onMounted, nextTick  } from "vue";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import EditComponentButton from "../main/edit-component-button.vue";
+import textAboutMeModal from "./modals/text-about-me-modal.vue";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,7 +70,8 @@ onMounted(async () => {
 
 <template>
     <div class="text-scroll-area-container edit-button-container">
-        <edit-component-button></edit-component-button>
+        <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#text-about-me-edit-modal"></edit-component-button>
+        <text-about-me-modal ></text-about-me-modal>
         <div class="text-scroll-area-container-outer">
             <div class="text-scroll-area-container-inner">
                 <div v-for="(word, index) in arr" :key="index" class="word-container-outer">

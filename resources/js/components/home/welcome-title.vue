@@ -2,6 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import gsap from "gsap";
 import EditComponentButton from "../main/edit-component-button.vue";
+import TitleModal from "./modals/title-modal.vue"
 
 const words = ["futures", "possibilities", "dreams", "adventures"]; // Words to cycle through
 const mainText = ref(words[0]); // Start with first word
@@ -66,7 +67,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="welcome-title-animation-container edit-button-container">
-        <edit-component-button></edit-component-button>
+        <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#title-edit-modal"></edit-component-button>
+        <title-modal></title-modal>
         <div class="welcome-title-animation">
             <div class="container">
                 <p class="text">

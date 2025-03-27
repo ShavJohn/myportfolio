@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
+import codeStyleModal from "./modals/code-style-modal.vue";
 
 const skills = ref([
     'Vue',
@@ -35,7 +36,8 @@ const codeLines = ref([
 
 <template>
    <div class="editor-container-outer edit-button-container">
-       <edit-component-button></edit-component-button>
+       <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#code-style-edit-modal"></edit-component-button>
+       <code-style-modal></code-style-modal>
        <div class="editor-container">
            <div class="code-editor">
             <pre v-for="(line, index) in codeLines" :key="index" class="code-line">

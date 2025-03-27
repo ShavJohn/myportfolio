@@ -1,7 +1,12 @@
 <script setup lang="ts">
-const imagePrefix =  window.imagePrefix
-import { ref, onMounted } from "vue";
+import { ref, onMounted, defineEmits } from "vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
+
+const imagePrefix =  window.imagePrefix
+
+const emit = defineEmits<{
+    ( e: 'changeModalType', value: string ): void
+}>()
 
 const image = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
@@ -63,7 +68,12 @@ onMounted(() => {
 
 <template>
     <div class="image-container actions-btn-container" ref="container" @mousemove="handleMouseMove" @mouseleave="resetTransform">
-        <edit-remove-element></edit-remove-element>
+        <edit-remove-element>
+                    <template #buttons>
+                        <button class="action-btn" @click="$emit('changeModalType', 'edit')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+                        <button class="action-btn" @click="$emit('changeModalType', 'remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+                    </template>
+                </edit-remove-element>
         <img ref="image" :src="`${imagePrefix}/shavjohn_logo.png`" alt="3D Hover Effect" class="hover-image" />
         <div ref="text" class="hover-text">Your Text Here</div>
     </div>

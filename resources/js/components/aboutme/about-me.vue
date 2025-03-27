@@ -2,9 +2,12 @@
 import { onMounted, ref, onBeforeUnmount } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
+import aboutMeModal from "./about-me-modal.vue";
 
 const progress = ref(0); // Reactive reference for progress bar
 const container = ref<HTMLElement | null>(null); // Reference to the container element
+
+let modalType = ref<string>('add')
 
 const sections = ref<HTMLElement[]>([]);
 
@@ -22,7 +25,6 @@ function updateScrollProgress() {
     let containerTop: number = container.value.getBoundingClientRect().top + scrollTop; // Top of the container relative to the page
     let containerBottom: number = containerTop + container.value.clientHeight; // Bottom of the container
 
-
     let middleOfViewport: number = (scrollTop + windowHeight / 2);
 
     if(container.value.getBoundingClientRect().top < middleOfViewport) {
@@ -32,17 +34,6 @@ function updateScrollProgress() {
     if(distanceToPageBottom < 650) {
         containerBottom = containerBottom - (windowHeight / 2) - 50
     }
-
-    // console.log({'container.top': container.value.getBoundingClientRect().top,
-    //     'scrollTop': scrollTop,
-    //     'container.bottom': container.value.getBoundingClientRect().bottom,
-    //     'clientHeight': container.value.clientHeight,
-    //     'containerTop': containerTop,
-    //     'containerBottom': containerBottom,
-    //     'middleOfViewport': middleOfViewport,
-    //     'windowHeight': windowHeight,
-    //     }
-    // )
 
     // Check if the container is in the viewport, starting at the middle
     if (middleOfViewport >= containerTop && middleOfViewport <= containerBottom) {
@@ -78,7 +69,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="about-me-container edit-button-container" ref="container">
-        <edit-component-button :btnType="'add'"></edit-component-button>
+        <edit-component-button :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"></edit-component-button>
+        <about-me-modal :modalType="modalType"></about-me-modal>
         <!-- Progress Bar Container -->
         <div class="progress-bar-container">
             <!-- Progress Bar -->
@@ -89,7 +81,12 @@ onBeforeUnmount(() => {
         <!-- About Me Details -->
         <div class="about-me-details-container">
             <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
-                <edit-remove-element></edit-remove-element>
+                <edit-remove-element>
+                    <template #buttons>
+                        <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+                        <button class="action-btn" @click="modalType = 'remove'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+                    </template>
+                </edit-remove-element>
                 <div class="about-me-year">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
@@ -100,7 +97,12 @@ onBeforeUnmount(() => {
                 </div>
             </div>
             <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
-                <edit-remove-element></edit-remove-element>
+                <edit-remove-element>
+                    <template #buttons>
+                        <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+                        <button class="action-btn" @click="modalType = 'remove'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+                    </template>
+                </edit-remove-element>
                 <div class="about-me-year actions-btn-container">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
