@@ -22,8 +22,6 @@ gsap.registerPlugin(ScrollTrigger);
 onMounted(async () => {
     await nextTick(); // Ensure DOM is ready before animations run
 
-    console.log('#########', arr.value.length,)
-
     gsap.fromTo(
         ".word",
         { color: "gray" }, // Initial gray color
