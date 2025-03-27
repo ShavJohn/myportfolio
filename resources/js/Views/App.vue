@@ -1,9 +1,10 @@
 <script setup lang="ts">
+//Import Section
 import MpHeader from "../components/main/mp-header.vue";
 import MpFooter from "../components/main/mp-footer.vue"
-
 import { ref, onMounted, onUnmounted } from "vue";
 
+//Variable Section
 // Reactive state for cursor position
 const cursorX = ref(0);
 const cursorY = ref(0);
@@ -49,8 +50,6 @@ onUnmounted(() => {
         element.removeEventListener("mouseleave", removeHoverEffect);
     });
 });
-
-
 </script>
 
 <template>
@@ -58,11 +57,7 @@ onUnmounted(() => {
        <mp-header></mp-header>
        <router-view></router-view>
        <mp-footer></mp-footer>
-
-       <!-- Small dot cursor -->
        <div class="cursor-dot" :style="{ left: `${cursorX}px`, top: `${cursorY}px` }"></div>
-
-       <!-- Outer circle with hover effect -->
        <div class="cursor-circle" :class="{ 'hovered': isHovering }" :style="{ left: `${circleX}px`, top: `${circleY}px` }"></div>
    </div>
 </template>

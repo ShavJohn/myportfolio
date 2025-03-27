@@ -1,40 +1,60 @@
 import { ActionContext } from "vuex";
 
 export interface HomeState {
-    msg: string
+    skills: Array<string>;
+    textAboutMe: string;
+    shortAboutMe: string;
 }
 
 export interface HomeGetter {
-    msgGetter(state: HomeState): string
+    skillsGetter(state: HomeState): Array<string>;
+    textAboutMeGetter(state: HomeState): string;
+    shortAboutMeGetter(state: HomeState): string;
 }
 
 export interface HomeMutation {
-    msgSetter(state: HomeState, data: string): void
+    skillsSetter(state: HomeState, data: string): void;
+    textAboutMeSetter(state: HomeState, data: string): void;
+    shortAboutMeSetter(state: HomeState, data: string): void;
 }
 
 export interface HomeAction {
-    msgAction(context: ActionContext<HomeState, any>, data: string): Promise<void>
+    skillsAction(context: ActionContext<HomeState, Array<string>>, data: string): Promise<void>;
 }
 
 export default {
     namespaced: true,
     state: (): HomeState => ({
-        msg: 'Hi guys'
+        skills: ['developer', 'devops', 'hacker'],
+        textAboutMe: 'I\'m developer with this skills',
+        shortAboutMe: "I'mexperienced full-stack web developer Web development is my playground where I push boundaries and chase new horizons.I'mexperienced full-stack web developer Web development is my playground where I push boundaries and chase new horizons.",
     }),
     getters: {
-        msgGetter(state) {
-            return state.msg
+        skillsGetter(state) {
+            return state.skills
+        },
+        textAboutMeGetter(state) {
+            return state.textAboutMe
+        },
+        shortAboutMeGetter(state) {
+            return state.shortAboutMe
         }
     } as HomeGetter,
     mutations: {
-        msgSetter(state, data) {
-            state.msg = data
+        skillsSetter(state, data) {
+            state.skills.push(data)
+        },
+        textAboutMeSetter(state, data) {
+            state.textAboutMe = data
+        },
+        shortAboutMeSetter(state, data) {
+            state.shortAboutMe = data
         }
     } as HomeMutation,
     actions: {
-        msgAction(context, data) {
+        skillsAction(context, data) {
             return new Promise((resolve, reject) => {
-                context.commit('msgSetter', "This is my custom massage")
+                context.commit('skillsSetter', data)
                 resolve()
             })
         }

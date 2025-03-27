@@ -1,54 +1,28 @@
 <script setup lang="ts">
-
-import { ref, onMounted, nextTick  } from "vue";
+import { ref, onMounted, nextTick, computed  } from "vue";
+import { useStore } from "vuex";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import EditComponentButton from "../main/edit-component-button.vue";
 import textAboutMeModal from "./modals/text-about-me-modal.vue";
 
-gsap.registerPlugin(ScrollTrigger);
+const store = useStore<any>();
 
-let arr = ref ([
-    'I\'m',
-    'experienced',
-    'full-stack',
-    'web',
-    'developer',
-    'Web',
-    'development',
-    'is',
-    'my',
-    'playground',
-    'where',
-    'I',
-    'push',
-    'boundaries',
-    'and',
-    'chase',
-    'new',
-    'horizons.',
-    'I\'m',
-    'experienced',
-    'full-stack',
-    'web',
-    'developer',
-    'Web',
-    'development',
-    'is',
-    'my',
-    'playground',
-    'where',
-    'I',
-    'push',
-    'boundaries',
-    'and',
-    'chase',
-    'new',
-    'horizons.'
-])
+let shotAboutMe  = computed(() => store.getters['home/shortAboutMeGetter'])
+
+function sentenceToArray(sentence: string): string[] {
+    // Split the sentence by spaces and return the array of words
+    return sentence.split(" ");
+}
+
+const arr = computed(() => sentenceToArray(shotAboutMe.value));
+
+gsap.registerPlugin(ScrollTrigger);
 
 onMounted(async () => {
     await nextTick(); // Ensure DOM is ready before animations run
+
+    console.log('#########', arr.value.length,)
 
     gsap.fromTo(
         ".word",
@@ -57,7 +31,7 @@ onMounted(async () => {
             color: "white",
             scrollTrigger: {
                 trigger: "body",
-                start: "top+=800px",
+                start: "top+=700px",
                 end: "top+=1700px",
                 scrub: 1, // Smooth transition on scroll
             },

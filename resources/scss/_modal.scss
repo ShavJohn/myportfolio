@@ -14,6 +14,95 @@
 
     .modal-body {
 
+
+        .row-element {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+
+            .form-input {
+                width: 100%;
+                border-radius: 15px;
+                padding: 5px 15px;
+                outline: none;
+                border: none;
+                background: #e3f2fd;
+            }
+
+            textarea.form-input {
+                resize: none;
+                min-height: 200px;
+                max-height: 200px;
+                overflow-x: auto;
+            }
+
+            .input-with-btn {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+
+                input {
+                    padding: 5px 0 5px 20px;
+                    width: 70%;
+                    border-top-left-radius: 15px;
+                    border-bottom-left-radius: 15px;
+                    outline: none;
+                    border: none;
+                    background: #e3f2fd;
+                }
+
+                button {
+                    width: 30%;
+                    outline: none;
+                    border: none;
+                    border-top-right-radius: 15px;
+                    border-bottom-right-radius: 15px;
+                    background-color: #198754;
+                    font-weight: 600;
+                    color: #fff;
+                }
+            }
+            
+            .tags-container {
+                padding-top: 20px;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                gap: 10px;
+
+                .tag-item {
+                    display: flex;
+                    align-items: center;
+                    background-color: #198754; // Bootstrap success color
+                    color: #fff;
+                    padding: 5px 15px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    gap: 8px;
+                    transition: background 0.3s ease;
+
+                    &:hover {
+                        background-color: #146c43; // Darker success shade
+                    }
+
+                    .tag-text {
+                        margin-right: 5px;
+                    }
+            
+                    svg {
+                        cursor: pointer;
+                        font-size: 14px;
+                        color: #fff;
+            
+                        &:hover {
+                            color: #d4edda; // Lighter success shade on hover
+                        }
+                    }
+                }
+            }
+    
+        }
     }
 
     .modal-footer {

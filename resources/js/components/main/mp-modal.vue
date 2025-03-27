@@ -20,7 +20,7 @@ withDefaults(defineProps<Props>(), {
                     <slot name="modal-header"></slot>
                 </div>
                 <div class="modal-body">
-                    <slot class="modal-body"></slot>
+                    <slot name="modal-body"></slot>
                 </div>
                 <div class="modal-footer">
                     <slot name="modal-footer"></slot>

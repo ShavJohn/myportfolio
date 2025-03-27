@@ -1,4 +1,4 @@
-<script setup lang="js">
+<script setup lang="ts">
 import MpModal from "../../main/mp-modal.vue"
 
 </script>
