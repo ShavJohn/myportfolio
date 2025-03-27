@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import EditComponentButton from "../main/edit-component-button.vue";
 
 const skills = ref([
     'Vue',
@@ -33,7 +34,8 @@ const codeLines = ref([
 </script>
 
 <template>
-   <div class="editor-container-outer">
+   <div class="editor-container-outer edit-button-container">
+       <edit-component-button></edit-component-button>
        <div class="editor-container">
            <div class="code-editor">
             <pre v-for="(line, index) in codeLines" :key="index" class="code-line">

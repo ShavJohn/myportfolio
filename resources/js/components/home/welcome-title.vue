@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from "vue";
 import gsap from "gsap";
+import EditComponentButton from "../main/edit-component-button.vue";
 
 const words = ["futures", "possibilities", "dreams", "adventures"]; // Words to cycle through
 const mainText = ref(words[0]); // Start with first word
@@ -64,7 +65,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-    <div class="welcome-title-animation-container">
+    <div class="welcome-title-animation-container edit-button-container">
+        <edit-component-button></edit-component-button>
         <div class="welcome-title-animation">
             <div class="container">
                 <p class="text">

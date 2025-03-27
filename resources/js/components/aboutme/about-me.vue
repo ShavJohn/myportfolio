@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, onBeforeUnmount } from "vue";
+import EditComponentButton from "../main/edit-component-button.vue";
+import EditRemoveElement from "../main/edit-remove-element.vue";
 
 const progress = ref(0); // Reactive reference for progress bar
 const container = ref<HTMLElement | null>(null); // Reference to the container element
@@ -75,7 +77,8 @@ onBeforeUnmount(() => {
 
 
 <template>
-    <div class="about-me-container" ref="container">
+    <div class="about-me-container edit-button-container" ref="container">
+        <edit-component-button :btnType="'add'"></edit-component-button>
         <!-- Progress Bar Container -->
         <div class="progress-bar-container">
             <!-- Progress Bar -->
@@ -85,7 +88,8 @@ onBeforeUnmount(() => {
 
         <!-- About Me Details -->
         <div class="about-me-details-container">
-            <div class="about-me" v-for="i in 6" :key="i" ref="sections">
+            <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
+                <edit-remove-element></edit-remove-element>
                 <div class="about-me-year">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
@@ -95,8 +99,9 @@ onBeforeUnmount(() => {
                     <p class="job-description">Some job details for testing. Some job details for testing. Some job details for testing.</p>
                 </div>
             </div>
-            <div class="about-me" v-for="i in 6" :key="i" ref="sections">
-                <div class="about-me-year">
+            <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
+                <edit-remove-element></edit-remove-element>
+                <div class="about-me-year actions-btn-container">
                     <div class="company-name">Company name</div>
                     <div class="year">20219</div>
                 </div>

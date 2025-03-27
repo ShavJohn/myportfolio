@@ -1,0 +1,45 @@
+.actions-btn-container {
+    position: relative;
+
+    &:hover {
+        .action-buttons-container {
+            opacity: 1;
+        }
+    }
+
+    .action-buttons-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        padding: 10px 25px;
+        background-color: #7a00ff;
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.80);
+        border-radius: 20px;
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        z-index: 999;
+
+        .action-btn {
+            background-color: transparent;
+            border: none;
+            outline: none;
+
+            &:first-of-type {
+                margin-right: 20px;
+            }
+
+            svg {
+                font-size: 20px;
+            }
+
+            .fa-pen-to-square {
+                color: white;
+            }
+
+            .fa-x {
+                color: #670505;
+            }
+
+        }
+    }
+}

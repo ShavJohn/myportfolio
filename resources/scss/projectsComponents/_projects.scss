@@ -7,5 +7,48 @@
     gap: 60px;
     flex-wrap: wrap;
 
+    .image-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 300px; /* Adjust based on your design */
+        height: 100%;
+        perspective: 1000px; /* Creates a depth effect */
+        border-radius: 20px;
+    }
+
+    .image-container {
+        opacity: 0;
+        transform: translateY(100px);
+        transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+
+    .image-container.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .hover-image {
+        width: 100%;
+        height: auto;
+        transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+        transform-origin: center;
+        border-radius: 20px;
+    }
+
+    .hover-text {
+        position: absolute;
+        left: -50px;
+        top: 70%;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: center;
+        z-index: 10; /* Ensure text is in front of the image */
+        pointer-events: none; /* Prevent text from interfering with mouse events */
+        transform: translateZ(0);
+        transition: transform 0.2s ease-out;
+    }
 
 }

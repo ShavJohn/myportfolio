@@ -3,6 +3,7 @@
 import { ref, onMounted, nextTick  } from "vue";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import EditComponentButton from "../main/edit-component-button.vue";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -67,7 +68,8 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="text-scroll-area-container">
+    <div class="text-scroll-area-container edit-button-container">
+        <edit-component-button></edit-component-button>
         <div class="text-scroll-area-container-outer">
             <div class="text-scroll-area-container-inner">
                 <div v-for="(word, index) in arr" :key="index" class="word-container-outer">

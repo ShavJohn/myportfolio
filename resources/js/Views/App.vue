@@ -34,7 +34,7 @@ onMounted(() => {
     updateCircle();
 
     // Add hover effect for interactive elements
-    document.querySelectorAll("button, a, li").forEach((element) => {
+    document.querySelectorAll("svg, button, a, li").forEach((element) => {
         element.addEventListener("mouseenter", addHoverEffect);
         element.addEventListener("mouseleave", removeHoverEffect);
     });
@@ -44,7 +44,7 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener("mousemove", updateCursor);
 
-    document.querySelectorAll("button, a, li").forEach((element) => {
+    document.querySelectorAll("svg, button, a, li").forEach((element) => {
         element.removeEventListener("mouseenter", addHoverEffect);
         element.removeEventListener("mouseleave", removeHoverEffect);
     });
