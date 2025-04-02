@@ -2,44 +2,40 @@
 import { ref, computed } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import codeStyleModal from "./modals/code-style-modal.vue";
+import { useStore } from "vuex";
+import moment from "moment";
+import { Entry, DitailsEntry } from "../../vuex/Moduls/home";
 
-const skills = ref([
-    'Vue',
-    'Laravel',
-    'Docker',
-    'Kubernetes',
-    'TailwindCSS'
-])
+const store = useStore();
 
-const education = ref([
-    { year: "2023-now", position: "Full-stack Developer at Company XYZ" },
-    { year: "2020-2023", position: "Software Engineer at ABC Corp" },
-]);
-
-const workExperience = ref([
-    { year: "2023-now", position: "Full-stack Developer at Company XYZ" },
-    { year: "2020-2023", position: "Software Engineer at ABC Corp" },
-]);
-
+const aboutMe = computed(() => store.state.home.myDitailsArray);
+const education = computed(() => store.state.home.educationArray);
+const workExperience = computed(() => store.state.home.workArray);
+const skills = computed(() => store.state.home.skillsArray);
 
 const eduacationLines = computed(() => {
-    return workExperience.value.map((job, index) => 
-        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${job.year}': '${job.position}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
+    return education.value.map((edu: Entry, index: number) => 
+        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${edu.starDate}-${edu.endDate}': '${edu.inputText}'</span> }${index < education.value.length - 1 ? "," : ""}`
     );
 });
 
 const workExperienceLines = computed(() => {
-    return workExperience.value.map((job, index) => 
-        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${job.year}': '${job.position}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
+    return workExperience.value.map((job: Entry, index: number) => 
+        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${job.starDate}-${job.endDate}': '${job.inputText}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
     );
 });
 
-const codeLines = ref([
+const aboutMeLines = computed(() => {
+    return aboutMe.value.map((text: DitailsEntry, index: number) => 
+        `<span class='editor-dots'>......</span><span class="editor-this">this</span>.<span class="editor-value-name">${text.key}</span> <span class="editor-equal">=</span> <span class="editor-string">${text.value};</span>${index < aboutMe.value.length - 1 ? "," : ""}`
+    )
+})
+
+const codeLines = computed(() => [
     `<span class='editor-class'>class </span><span class='editor-class-name'>ShavJohn</span> { `,
     `<span class='editor-dots'>..</span><span class='editor-comment'>// I create, I develop, I learn.</span>`,
     `<span class='editor-dots'>....</span><span class='editor-function'>constructor</span>() {`,
-    `<span class='editor-dots'>......</span><span class="editor-this">this</span>.<span class="editor-value-name">name </span> <span class="editor-equal">=</span> <span class="editor-string">'Your Name';</span>`,
-    `<span class='editor-dots'>......</span><span class="editor-this">this</span>.<span class="editor-value-name">email </span> <span class="editor-equal">=</span> <span class="editor-string">'your.email@example.com';</span>`,
+    ...aboutMeLines.value,
     `<span class='editor-dots'>....</span>}`,
     "",
     `<span class='editor-dots'>....</span><span class='editor-function'>education</span>() {`,
@@ -55,7 +51,7 @@ const codeLines = ref([
     `<span class='editor-dots'>....</span>}`,
     "",
     `<span class='editor-dots'>....</span><span class='editor-function'>skills</span>() {`,
-    `<span class='editor-dots'>......</span><span class="editor-return">return</span> [ ${skills.value.map(skill => `<span class='editor-string'>"${skill}"</span>`).join(', ')} <span class="text-indicator"></span>];`,
+    `<span class='editor-dots'>......</span><span class="editor-return">return</span> [ ${skills.value.map((skill: string) => `<span class='editor-string'>"${skill}"</span>`).join(', ')} <span class="text-indicator"></span>];`,
     "<span class='editor-dots'>....</span>}",
     "}",
 ]);
@@ -64,7 +60,7 @@ const codeLines = ref([
 
 <template>
    <div class="editor-container-outer edit-button-container">
-       <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#text-about-me-edit-modal"></edit-component-button>
+       <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#code-style-edit-modal"></edit-component-button>
        <code-style-modal></code-style-modal>
        <div class="editor-container">
            <div class="code-editor">

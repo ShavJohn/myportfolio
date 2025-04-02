@@ -12,30 +12,27 @@ const shotAboutMe = computed({
 
 </script>
 <template>
-    <mp-modal modalId="text-about-me-edit-modal">
-        <template #modal-header>
-            <h4>Text about me edit modal</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </template>
-        <template #modal-body>
-            <div class="row-element">
-                <div class="w-50">
-                    <label for="title-text">Text about me</label>
+    <div id="text-about-me-edit-modal" class="modal fade"  tabindex="-1" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4>Text about me edit modal</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="w-50">
-                    <textarea v-model="shotAboutMe" class="form-input"></textarea>
+                <div class="modal-body-for-text">
+                    <textarea v-model="shotAboutMe" id="text-about-me" class="form-input"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
+                    <button class="btn btn-primary">
+                        Update 
+                    </button>
                 </div>
             </div>
-        </template>
-        <template #modal-footer>
-            <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
-                Close
-            </button>
-            <button class="btn btn-primary">
-                Update 
-            </button>
-        </template>
-    </mp-modal>
+        </div>
+    </div>
 </template>
 
 <style lang="scss">

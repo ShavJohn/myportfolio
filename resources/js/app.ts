@@ -2,7 +2,8 @@ import { createApp, DirectiveBinding  } from 'vue';
 import './bootstrap';
 import App from './Views/App.vue';
 import router from "./router";
-import store from "./vuex"
+import store from "./vuex";
+import Datepicker from 'vuejs3-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -60,6 +61,8 @@ app.use(router)
 app.use(store)
 
 app.component('font-awesome-icon', FontAwesomeIcon)
+
+app.component('datepicker', Datepicker)
 
 
 app .mount('#app');

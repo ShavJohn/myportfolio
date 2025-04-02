@@ -5,6 +5,6 @@ import dashboard from './Moduls/dashboard'
 
 export default createStore({
     modules: {
-        home
+        home,
     }
 })

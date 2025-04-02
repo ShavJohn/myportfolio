@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import { withDefaults, defineProps } from 'vue';
-
 interface Props {
     btnType?: string; // Optional prop with default value
 }

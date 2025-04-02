@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, defineEmits } from "vue";
+import { ref, onMounted } from "vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
 
 const imagePrefix =  window.imagePrefix
