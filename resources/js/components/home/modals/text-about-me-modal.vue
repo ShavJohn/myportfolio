@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import MpModal from "../../main/mp-modal.vue"
-import { ref, computed } from "vue"
+import { computed } from "vue"
 import { useStore } from "vuex";
 
 const store = useStore<any>();

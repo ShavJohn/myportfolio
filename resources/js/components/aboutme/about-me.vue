@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { onMounted, ref, onBeforeUnmount } from "vue";
+import { onMounted, ref, onBeforeUnmount, computed } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
 import aboutMeModal from "./about-me-modal.vue";
+import { useStore } from "vuex";
 
 const progress = ref(0); // Reactive reference for progress bar
 const container = ref<HTMLElement | null>(null); // Reference to the container element
@@ -10,6 +11,9 @@ const container = ref<HTMLElement | null>(null); // Reference to the container e
 let modalType = ref<string>('add')
 
 const sections = ref<HTMLElement[]>([]);
+
+const store = useStore<any>();
+const position = computed(() => store.getters["aboutme/positionGetter"])
 
 // Function to update the progress bar height based on the scroll position within the component
 function updateScrollProgress() {
@@ -28,11 +32,11 @@ function updateScrollProgress() {
     let middleOfViewport: number = (scrollTop + windowHeight / 2);
 
     if(container.value.getBoundingClientRect().top < middleOfViewport) {
-        middleOfViewport =  middleOfViewport - (windowHeight / 2) + 50
+        middleOfViewport =  middleOfViewport - (windowHeight / 2) + 100
     }
 
     if(distanceToPageBottom < 650) {
-        containerBottom = containerBottom - (windowHeight / 2) - 50
+        containerBottom = containerBottom - (windowHeight / 2) - 100
     }
 
     // Check if the container is in the viewport, starting at the middle
@@ -80,11 +84,15 @@ onBeforeUnmount(() => {
 
         <!-- About Me Details -->
         <div class="about-me-details-container">
-            <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
+            <div class="about-me actions-btn-container" v-for="i in 10" :key="i" ref="sections">
                 <edit-remove-element>
                     <template #buttons>
-                        <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-                        <button class="action-btn" @click="modalType = 'remove'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+                        <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal">
+                            <font-awesome-icon icon="fa-solid fa-pen-to-square"/>
+                        </button>
+                        <button class="action-btn" @click="modalType = 'remove'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal">
+                            <font-awesome-icon icon="fa-solid fa-x"/>
+                        </button>
                     </template>
                 </edit-remove-element>
                 <div class="about-me-year">
@@ -96,22 +104,7 @@ onBeforeUnmount(() => {
                     <p class="job-description">Some job details for testing. Some job details for testing. Some job details for testing.</p>
                 </div>
             </div>
-            <div class="about-me actions-btn-container" v-for="i in 6" :key="i" ref="sections">
-                <edit-remove-element>
-                    <template #buttons>
-                        <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-                        <button class="action-btn" @click="modalType = 'remove'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
-                    </template>
-                </edit-remove-element>
-                <div class="about-me-year actions-btn-container">
-                    <div class="company-name">Company name</div>
-                    <div class="year">20219</div>
-                </div>
-                <div class="about-me-details">
-                    <h1 class="job-title">My job</h1>
-                    <p class="job-description">Some job details for testing. Some job details for testing. Some job details for testing.</p>
-                </div>
-            </div>
+            
         </div>
     </div>
 </template>

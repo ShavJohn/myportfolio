@@ -4,7 +4,7 @@ import EditComponentButton from "../main/edit-component-button.vue";
 import codeStyleModal from "./modals/code-style-modal.vue";
 import { useStore } from "vuex";
 import moment from "moment";
-import { Entry, DitailsEntry } from "../../vuex/Moduls/home";
+import type { Entry, DitailsEntry } from "../../types/home";
 
 const store = useStore();
 
