@@ -45,6 +45,7 @@ function runMyCode() {
                 <li @click="$router.push({name: 'AboutMe'})"><a href="#" class="menu-item" @click="closeMenu">About me</a></li>
                 <li @click="$router.push({name: 'Project'})"><a href="#" class="menu-item" @click="closeMenu">Projects</a></li>
                 <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Contact me</a></li>
+                <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Dashboard</a></li>
             </ul>
 
             <div class="actions">
