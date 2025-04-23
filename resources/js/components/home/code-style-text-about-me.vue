@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import codeStyleModal from "./modals/code-style-modal.vue";
 import { useStore } from "vuex";
-import moment from "moment";
 import type { Entry, DitailsEntry } from "../../types/home";
 
 const store = useStore();
@@ -12,6 +11,7 @@ const aboutMe = computed(() => store.state.home.myDitailsArray);
 const education = computed(() => store.state.home.educationArray);
 const workExperience = computed(() => store.state.home.workArray);
 const skills = computed(() => store.state.home.skillsArray);
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 const eduacationLines = computed(() => {
     return education.value.map((edu: Entry, index: number) => 
@@ -60,8 +60,8 @@ const codeLines = computed(() => [
 
 <template>
    <div class="editor-container-outer edit-button-container">
-       <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#code-style-edit-modal"></edit-component-button>
-       <code-style-modal></code-style-modal>
+       <edit-component-button v-if="authUser" type="button" data-bs-toggle="modal" data-bs-target="#code-style-edit-modal"></edit-component-button>
+       <code-style-modal v-if="authUser"></code-style-modal>
        <div class="editor-container">
            <div class="code-editor">
             <pre v-for="(line, index) in codeLines" :key="index" class="code-line">

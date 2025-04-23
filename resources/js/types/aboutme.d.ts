@@ -1,14 +1,13 @@
-import { ActionContext } from "vuex";
-import { GetterTree, MutationTree, ActionTree } from "vuex";
+import { GetterTree, MutationTree, ActionTree, ActionContext } from "vuex";
 import { RootState } from "../vuex";
 
 export interface Position {
-    id: number,
-    title: string,
-    desciption: string,
-    company: string,
-    startDate: string,
-    endDate: string,
+    id: number;
+    title: string;
+    desciption: string;
+    company: string;
+    startDate: string;
+    endDate: string;
     tillNow: boolean
 }
 

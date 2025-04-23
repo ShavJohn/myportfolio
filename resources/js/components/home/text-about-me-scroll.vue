@@ -15,6 +15,7 @@ function sentenceToArray(sentence: string): string[] {
     return sentence.split(" ");
 }
 
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 const arr = computed(() => sentenceToArray(shotAboutMe.value));
 
 gsap.registerPlugin(ScrollTrigger);
@@ -42,8 +43,8 @@ onMounted(async () => {
 
 <template>
     <div class="text-scroll-area-container edit-button-container">
-        <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#text-about-me-edit-modal"></edit-component-button>
-        <text-about-me-modal ></text-about-me-modal>
+        <edit-component-button v-if="authUser" type="button" data-bs-toggle="modal" data-bs-target="#text-about-me-edit-modal"></edit-component-button>
+        <text-about-me-modal v-if="authUser"></text-about-me-modal>
         <div class="text-scroll-area-container-outer">
             <div class="text-scroll-area-container-inner">
                 <div v-for="(word, index) in arr" :key="index" class="word-container-outer">

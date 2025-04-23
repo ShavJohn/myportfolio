@@ -11,7 +11,8 @@ const store = useStore<any>();
 //Variable Section
 const textAboutMe = computed(() => store.getters["home/textAboutMeGetter"]);
 
-let tagArr = computed(() => store.getters["home/skillsGetter"]);
+const tagArr = computed(() => store.getters["home/skillsGetter"]);
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 const mainText = ref(tagArr.value[0] || ""); // Start with the first tag
 let wordIndex = 0;
@@ -86,8 +87,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="welcome-title-animation-container edit-button-container">
-        <edit-component-button type="button" data-bs-toggle="modal" data-bs-target="#title-edit-modal"></edit-component-button>
-        <title-modal></title-modal>
+        <edit-component-button v-if="authUser" type="button" data-bs-toggle="modal" data-bs-target="#title-edit-modal"></edit-component-button>
+        <title-modal v-if="authUser"></title-modal>
         <div class="welcome-title-animation">
             <div class="container">
                 <p class="text">

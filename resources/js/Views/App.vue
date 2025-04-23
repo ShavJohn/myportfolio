@@ -2,7 +2,11 @@
 //Import Section
 import MpHeader from "../components/main/mp-header.vue";
 import MpFooter from "../components/main/mp-footer.vue"
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, watch, computed } from "vue";
+import { useRoute } from "vue-router";
+import { useStore } from "vuex";
+
+const store = useStore<any>()
 
 //Variable Section
 // Reactive state for cursor position
@@ -11,6 +15,23 @@ const cursorY = ref(0);
 const circleX = ref(0);
 const circleY = ref(0);
 const isHovering = ref(false);
+
+const route = useRoute();
+const showElement = ref(true);
+
+const checkElementVisibility = () => {
+    const hiddenRouts = ["/login", "/register"];
+    showElement.value = !hiddenRouts.includes(route.path);
+}
+
+watch(route, () => {
+    checkElementVisibility();
+})
+
+function countVisitors() {
+    store.dispatch('statistics/countVisitor')
+}
+
 
 // Update cursor position in real-time
 const updateCursor = (event: MouseEvent) => {
@@ -33,7 +54,9 @@ const removeHoverEffect = () => isHovering.value = false;
 onMounted(() => {
     window.addEventListener("mousemove", updateCursor);
     updateCircle();
-
+    countVisitors();
+    checkElementVisibility();
+    
     // Add hover effect for interactive elements
     document.querySelectorAll("svg, button, a, li").forEach((element) => {
         element.addEventListener("mouseenter", addHoverEffect);
@@ -54,9 +77,9 @@ onUnmounted(() => {
 
 <template>
    <div>
-       <mp-header></mp-header>
+       <mp-header v-if="showElement"></mp-header>
        <router-view></router-view>
-       <mp-footer></mp-footer>
+       <mp-footer v-if="showElement"></mp-footer>
        <div class="cursor-dot" :style="{ left: `${cursorX}px`, top: `${cursorY}px` }"></div>
        <div class="cursor-circle" :class="{ 'hovered': isHovering }" :style="{ left: `${circleX}px`, top: `${circleY}px` }"></div>
    </div>

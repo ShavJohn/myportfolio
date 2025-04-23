@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
+const store = useStore<any>()
 
 // Mobile menu state
 const isMobileMenuOpen = ref(false);
@@ -9,6 +12,9 @@ const toggleMobileMenu = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
 };
 
+const authUser = computed(() => store.getters['auth/authUserGetter'])
+
+const logout = () => store.dispatch('auth/logOut');
 
 const closeMenu = () => {
     isMobileMenuOpen.value = false;
@@ -45,7 +51,11 @@ function runMyCode() {
                 <li @click="$router.push({name: 'AboutMe'})"><a href="#" class="menu-item" @click="closeMenu">About me</a></li>
                 <li @click="$router.push({name: 'Project'})"><a href="#" class="menu-item" @click="closeMenu">Projects</a></li>
                 <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Contact me</a></li>
-                <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Dashboard</a></li>
+                <li v-if="authUser" @click="$router.push({name: 'Dashboard'})"><a href="#" class="menu-item" @click="closeMenu">Dashboard</a></li>
+                <li v-if="authUser" @click="logout"><a href="#" class="menu-item" @click="closeMenu">
+                    Logout 
+                    <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
+                    </a></li>
             </ul>
 
             <div class="actions">

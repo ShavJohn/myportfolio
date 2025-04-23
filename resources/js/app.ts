@@ -1,5 +1,5 @@
-import { createApp, DirectiveBinding  } from 'vue';
-import './bootstrap';
+import { createApp } from 'vue';
+// import './bootstrap';
 import App from './Views/App.vue';
 import router from "./router";
 import store from "./vuex";
@@ -20,7 +20,7 @@ library.add(fas, far, fab)
 
 gsap.registerPlugin(ScrollTrigger);
 
-
+window.imagePrefix = `/storage`;
 
 const app = createApp(App);
 

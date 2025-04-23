@@ -57,7 +57,7 @@ const stopBounce = () => {
             </ul>
         </div>
         <div class="all-right-reserved">
-            © Made with  by ShavJohn 2018.
+            © Made by ShavJohn 2018.
         </div>
     </div>
 </template>

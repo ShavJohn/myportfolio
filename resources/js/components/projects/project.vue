@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
+import { useStore } from "vuex";
 
 const imagePrefix =  window.imagePrefix
 
-const emit = defineEmits<{
+defineEmits<{
     ( e: 'changeModalType', value: string ): void
 }>()
 
+const store = useStore<any>()
+
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 const image = ref<HTMLElement | null>(null);
 const container = ref<HTMLElement | null>(null);
 const text = ref<HTMLElement | null>(null);
@@ -68,12 +72,12 @@ onMounted(() => {
 
 <template>
     <div class="image-container actions-btn-container" ref="container" @mousemove="handleMouseMove" @mouseleave="resetTransform">
-        <edit-remove-element>
-                    <template #buttons>
-                        <button class="action-btn" @click="$emit('changeModalType', 'edit')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-                        <button class="action-btn" @click="$emit('changeModalType', 'remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
-                    </template>
-                </edit-remove-element>
+        <edit-remove-element v-if="authUser">
+            <template #buttons>
+                <button class="action-btn" @click="$emit('changeModalType', 'edit')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+                <button class="action-btn" @click="$emit('changeModalType', 'remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+            </template>
+        </edit-remove-element>
         <img ref="image" :src="`${imagePrefix}/shavjohn_logo.png`" alt="3D Hover Effect" class="hover-image" />
         <div ref="text" class="hover-text">Your Text Here</div>
     </div>

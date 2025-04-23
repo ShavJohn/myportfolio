@@ -7,6 +7,7 @@ import { useStore } from "vuex";
 
 const progress = ref(0); // Reactive reference for progress bar
 const container = ref<HTMLElement | null>(null); // Reference to the container element
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 let modalType = ref<string>('add')
 
@@ -73,8 +74,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="about-me-container edit-button-container" ref="container">
-        <edit-component-button :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"></edit-component-button>
-        <about-me-modal :modalType="modalType"></about-me-modal>
+        <edit-component-button v-if="authUser" :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal"></edit-component-button>
+        <about-me-modal v-if="authUser" :modalType="modalType"></about-me-modal>
         <!-- Progress Bar Container -->
         <div class="progress-bar-container">
             <!-- Progress Bar -->
@@ -85,7 +86,7 @@ onBeforeUnmount(() => {
         <!-- About Me Details -->
         <div class="about-me-details-container">
             <div class="about-me actions-btn-container" v-for="i in 10" :key="i" ref="sections">
-                <edit-remove-element>
+                <edit-remove-element v-if="authUser">
                     <template #buttons>
                         <button class="action-btn" @click="modalType = 'edit'" type="button" data-bs-toggle="modal" data-bs-target="#about-me-modal">
                             <font-awesome-icon icon="fa-solid fa-pen-to-square"/>

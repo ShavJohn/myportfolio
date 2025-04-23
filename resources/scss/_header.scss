@@ -22,9 +22,21 @@
                 color: #e5e5e5;
             }
         }
+
+        .nav-links {
+
+            li {
+
+                .menu-item {
+                    svg {
+                        margin-left: 10px;
+                    }
+                }
+            }
+        }
     }
 }
-@media screen and (min-width: 700px) {
+@media screen and (min-width: 900px) {
 
     .nav {
         justify-content: center;
@@ -34,6 +46,8 @@
             gap: 20px;
             list-style: none;
             text-decoration: none;
+            padding: 0;
+            margin: 0;
 
             li {
                 padding: 5px;
@@ -72,7 +86,7 @@
     }
 }
 
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 900px) {
     .nav {
         justify-content: end;
 

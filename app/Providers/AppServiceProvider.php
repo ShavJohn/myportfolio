@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Interfaces\EmailInterface;
+use App\Repositories\EmailRepository;
+use App\Interfaces\SettingsInterface;
+use App\Repositories\SettingsRepository;
+use App\Interfaces\StatisticsInterface;
+use App\Repositories\StatisticsRepository;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +26,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->bind(
+            EmailInterface::class,
+            EmailRepository::class
+        );
+        $this->app->bind(
+            SettingsInterface::class,
+            SettingsRepository::class
+        );
+        $this->app->bind(
+            StatisticsInterface::class,
+            StatisticsRepository::class
+        );
     }
 }

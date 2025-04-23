@@ -29,7 +29,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #ffffff; /* White scrollbar */
+    background: rgba(255, 255, 255, 0.7); /* White scrollbar */
     border-radius: 10px;
 }
 
@@ -62,7 +62,7 @@
     height: 6px;
     background-color: white;
     border-radius: 50%;
-    border: 1px solid rgba(85, 85, 85, 0.281);
+    border: 2px solid rgba(85, 85, 85, 0.281);
 }
 
 // Outer circle (delayed effect)
@@ -70,7 +70,7 @@
     width: 20px;
     height: 20px;
     border: 2px solid rgba(255, 255, 255, 0.7);
-    outline: 1px solid rgba(85, 85, 85, 0.281);
+    outline: 2px solid rgba(85, 85, 85, 0.281);
     border-radius: 50%;
     transition: transform 0.1s ease-out, width 0.2s ease-out, height 0.2s ease-out;
 }

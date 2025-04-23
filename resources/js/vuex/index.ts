@@ -4,6 +4,9 @@ import home from './Moduls/home'
 import aboutme from "./Moduls/aboutme";
 import project from "./Moduls/project";
 import contactus from "./Moduls/contactus";
+import auth from "./Moduls/auth";
+import dashboard from "./Moduls/dashboard";
+import statistics from "./Moduls/statistics";
 
 export interface RootState {}
 
@@ -12,6 +15,9 @@ export default createStore({
         home,
         aboutme,
         project,
-        contactus
+        contactus,
+        auth,
+        dashboard,
+        statistics
     }
 })

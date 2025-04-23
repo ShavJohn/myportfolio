@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, computed } from "vue"
 import Project from "./project.vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import ProjectModal from "./project-modal.vue";
+import { useStore } from "vuex";
+
+const store = useStore<any>()
+
+const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 let modalType = ref<string>('add')
 
@@ -10,8 +15,8 @@ let modalType = ref<string>('add')
 
 <template>
     <div class="projects-container edit-button-container">
-        <edit-component-button :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"></edit-component-button>
-        <project-modal :modalType="modalType"></project-modal>
+        <edit-component-button v-if="authUser" :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"></edit-component-button>
+        <project-modal v-if="authUser" :modalType="modalType"></project-modal>
         <project v-for="i in 8" @changeModalType="(value) => modalType = value"></project>
     </div>
 </template>

@@ -1,0 +1,119 @@
+.login-page-container {
+    background-color: #0f172a;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+
+    .login-container {
+        display: flex;
+        flex-direction: row;
+        background-color: #1e293b;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        max-width: 75vw;
+        width: 100%;
+        padding: 20px;
+        gap: 30px;
+
+        .image-container {
+            display: flex;
+            align-items: center;
+            flex: 1;
+
+            img {
+                max-width: 100%;
+                height: auto;
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+            }
+        }
+
+        .inputs-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+
+            .input-container {
+                display: flex;
+                flex-direction: column;
+
+                input {
+                    padding: 12px 16px;
+                    border: none;
+                    border-radius: 8px;
+                    background-color: #334155;
+                    color: #fff;
+                    font-size: 16px;
+                    transition: box-shadow 0.2s ease;
+
+                    &::placeholder {
+                        color: #cbd5e1;
+                    }
+
+                    &:focus {
+                        outline: none;
+                        box-shadow: 0 0 0 2px #38bdf8;
+                    }
+                }
+
+                button {
+                    padding: 12px 16px;
+                    background-color: #38bdf8;
+                    color: #0f172a;
+                    font-weight: bold;
+                    font-size: 16px;
+                    border: none;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+
+                    &:hover {
+                        background-color: #0ea5e9;
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive Styles
+    @media (max-width: 768px) {
+        .login-container {
+            flex-direction: column;
+            padding: 16px;
+
+            .image-container {
+                order: 1;
+                margin-bottom: 20px;
+
+                img {
+                    max-width: 100%;
+                }
+            }
+
+            .inputs-container {
+                order: 2;
+                width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .login-container {
+            padding: 12px;
+
+            .image-container img {
+                max-width: 100%;
+            }
+
+            .inputs-container .input-container input,
+            .inputs-container .input-container button {
+                font-size: 14px;
+                padding: 10px;
+            }
+        }
+    }
+}

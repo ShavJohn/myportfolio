@@ -1,15 +1,14 @@
-import { ActionContext } from "vuex";
-import { GetterTree, MutationTree, ActionTree } from "vuex";
+import { GetterTree, MutationTree, ActionTree, ActionContext } from "vuex";
 import { RootState } from "../vuex";
 
 export interface DitailsEntry {
-    id: number,
-    key: string,
+    id: number;
+    key: string;
     value: string
 }
 
 export interface Entry {
-    id: number,
+    id: number;
     inputText: string;
     starDate: string;
     endDate: string;

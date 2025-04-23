@@ -40,11 +40,13 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.imagePrefix = `/storage`;
 
 interface Token {
-    content: string
+    content: string | null
 }
+const tokenElement = document.head.querySelector('meta[name="csrf-token"]') as HTMLMetaElement | null;
 
-let token = document.head.querySelector('meta[name="csrf-token"]');
-
+const token: Token = {
+  content: tokenElement?.content ?? null
+}
 if (token) {
     window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 }
