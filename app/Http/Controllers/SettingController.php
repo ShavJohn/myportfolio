@@ -2,9 +2,152 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Services\FileManagerService;
+use Illuminate\Support\Facades\Log;
+use App\Interfaces\SettingsInterface;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
-    //
+    /**
+     * Undocumented variable
+     *
+     * @var SettingsInterface
+     */
+    public SettingsInterface $SettingsRepo;
+
+    public FileManagerService $fileManager;
+
+    /**
+     * Undocumented function
+     *
+     * @param SettingsInterface $settings_interface
+     */
+    public function __construct(SettingsInterface $settings_interface, FileManagerService $file_manager_service)
+    {
+        $this->SettingsRepo = $settings_interface;
+        $this->fileManager = $file_manager_service;
+    }
+
+    public function getSettings()
+    {
+        try {
+
+            $res = $this->SettingsRepo->getSettings();
+
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'settings' => $res,
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message'  => 'Something went wrong',
+            ]);
+        }
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        try {
+
+            $settingData = $request->all();
+
+            $res = $this->SettingsRepo->store($settingData);
+
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'message'  => 'Setting updated successfuly',
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message'  => 'Something went wrong',
+            ]);
+        }
+    }
+
+    public function update(Request $request, $id): JsonResponse
+    {
+        try {
+
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'message'  => 'Logo has been deleted',
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message'  => 'Something went wrong',
+            ]);
+        }
+    }
+
+    public function uploadLogo(Request $request): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+        
+            $file = $request->file('image');
+
+            $res = $this->fileManager->upload($file);
+
+            $data = [
+                'key' => 'logo',
+                'value' => $res['path']
+            ];
+
+            $this->SettingsRepo->store($data);
+
+            DB::commit();
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'message' => 'Logo has been uploaded',
+                'logo' => $res['path']
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            dd($exception);
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message'  => 'Something went wrong',
+            ]);
+        }
+    }
+
+    public function deleteLogo($logo): JsonResponse
+    {
+        try {
+
+            $this->fileManager->delete($logo . '.webp');
+
+            $this->SettingsRepo->delete('logo');
+
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'message'  => 'Logo has been deleted',
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message'  => 'Something went wrong',
+            ]);
+        }
+    }
 }

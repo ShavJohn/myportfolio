@@ -59,13 +59,13 @@ const actions: AuthAction = {
             const errorData = axiosError.response?.data as ErrorResponse;
             const errorStatus = axiosError.response?.status;
 
-            // if (errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         type: errorData.type,
-            //         status: errorStatus,
-            //         message: errorData.message
-            //     }, { root: true });
-            // }
+            if (errorData) {
+                context.dispatch('alert/alertResponse', {
+                    type: errorData.type,
+                    status: errorStatus,
+                    message: errorData.message
+                }, { root: true });
+            }
             
             throw err;
         }
@@ -78,53 +78,53 @@ const actions: AuthAction = {
             const axiosError = err as AxiosError;
             const errorData = axiosError.response?.data as ErrorResponse;
             const errorStatus = axiosError.response?.status;
-            // if(errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         'type': errorData.type,
-            //         'status': errorStatus,
-            //         'message': errorData.message
-            //     }, { root:true })
-            // }
+            if(errorData) {
+                context.dispatch('alert/alertResponse', {
+                    'type': errorData.type,
+                    'status': errorStatus,
+                    'message': errorData.message
+                }, { root:true })
+            }
 
             throw err
         }
     },
     async saveUserChanges(context, data) {
         try {
-            const res =  axios.put(`/change-current-user-data/${data.id}`, data)
+            const res = await axios.put(`/change-current-user-data/${data.id}`, data)
 
             return res
         } catch(err) {
             const axiosError = err as AxiosError;
             const errorData = axiosError.response?.data as ErrorResponse;
             const errorStatus = axiosError.response?.status;
-            // if(errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         'type': errorData.type,
-            //         'status': errorStatus,
-            //         'message': errorData.message
-            //     }, { root:true })
-            // }
+            if(errorData) {
+                context.dispatch('alert/alertResponse', {
+                    'type': errorData.type,
+                    'status': errorStatus,
+                    'message': errorData.message
+                }, { root:true })
+            }
 
             throw err
         }
     },
     async createNewUser(context, data) {
         try {
-            const res =  axios.post(`/create-user`, data)
+            const res = await axios.post(`/create-user`, data)
 
             return res
         } catch(err) {
             const axiosError = err as AxiosError;
             const errorData = axiosError.response?.data as ErrorResponse;
             const errorStatus = axiosError.response?.status;
-            // if(errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         'type': errorData.type,
-            //         'status': errorStatus,
-            //         'message': errorData.message
-            //     }, { root:true })
-            // }
+            if(errorData) {
+                context.dispatch('alert/alertResponse', {
+                    'type': errorData.type,
+                    'status': errorStatus,
+                    'message': errorData.message
+                }, { root:true })
+            }
 
             throw err
         }
@@ -144,13 +144,13 @@ const actions: AuthAction = {
             const axiosError = err as AxiosError;
             const errorData = axiosError.response?.data as ErrorResponse;
             const errorStatus = axiosError.response?.status;
-            // if(errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         'type': errorData.type,
-            //         'status': errorStatus,
-            //         'message': errorData.message
-            //     }, { root:true })
-            // }
+            if(errorData) {
+                context.dispatch('alert/alertResponse', {
+                    'type': errorData.type,
+                    'status': errorStatus,
+                    'message': errorData.message
+                }, { root:true })
+            }
 
             throw err
         }

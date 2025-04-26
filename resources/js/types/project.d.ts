@@ -1,7 +1,7 @@
 import { ActionContext, GetterTree, MutationTree, ActionTree } from "vuex";
 import { RootState } from "../vuex";
 
-export interface Project {
+export type Project = {
     id: number;
     name: string;
     url: string;

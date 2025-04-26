@@ -1,7 +1,7 @@
 import { ActionContext, GetterTree, MutationTree, ActionTree } from "vuex";
 import { RootState } from "../vuex";
 
-export interface Contactus {
+export type Contactus = {
     id: number;
     name: string;
     email: string;

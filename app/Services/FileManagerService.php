@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Filesystem\Filesystem;
-
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class FileManagerService
 {
@@ -17,159 +17,79 @@ class FileManagerService
     protected Filesystem $disk;
 
     /**
+     * Undocumented variable
+     *
+     * @var ImageManager
+     */
+    protected ImageManager $imageManager;
+
+    /**
      * FileManagerService constructor.
      * @param Filesystem $filesystem
      */
     public function __construct(Filesystem $filesystem)
     {
         $this->disk = $filesystem;
-        $this->disk = Storage::disk(config('filesystems.default'));
+        $this->disk = Storage::disk('public');
+        $this->imageManager = new ImageManager(new Driver());
     }
 
-    /**
-     * @param $fileName
-     * @return JsonResponse
-     */
-    public function getFile($fileName): JsonResponse
-    {
-        $prefix = $fileName[0] === '/' ? 'public' : 'public/';
-        try {
-            if($this->disk->exists($prefix . $fileName)) {
-                $filePath = $this->disk->get($prefix . $fileName);
-
-                return response()->json([
-                    'success' => 1,
-                    'type' => 'success',
-                    'message'  => 'File has been Uploaded',
-                    'file_path' => $filePath
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => 0,
-                    'type' => 'error',
-                    'message'  => 'File dosen\'t exist',
-                ], 200);
-            }
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            return response()->json([
-                'success' => 0,
-                'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
-        }
-    }
-
-    /**
-     * @param $image
-     * @param $name
-     * @param bool $uploadPrefix
-     * @return JsonResponse
-     */
-    public function uploadFile($image, $name, $uploadPrefix = true): JsonResponse
+    public function upload($file, string $folder = 'uploads'): Array
     {
         try {
-            $image->encode();
+            $image = $this->imageManager->read($file->getRealPath())->toWebp(quality: 70);
 
-            $prefix = $uploadPrefix ? ($name[0] === '/' ? 'public' : 'public/') : ($name[0] === '/' ? '' : '/');
-            $this->disk->put($prefix .$name, $image, 'public');
+            // Generate random hashed filename
+            $hashName = time() . '_' . str_shuffle('local_project_image') . '.webp';
 
-            return response()->json([
+
+            $data = [
+                'file' => $file,
+                'image' => $image,
+                'hashName' => $hashName,
+            ];
+
+            Storage::disk('public')->put($hashName, (string) $image);
+
+            return [
                 'success' => 1,
-                'type' => 'success',
-                'message'  => 'File has been Uploaded',
-            ], 200);
+                'message' => 'Image uploaded successfully.',
+                'path' => $hashName,
+            ];
+        } catch (\Exception $e) {
+            Log::error($e);
 
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            return response()->json([
+            return [
                 'success' => 0,
-                'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => 'Upload failed.' . $e,
+            ];
         }
     }
 
-    /**
-     * @param $image
-     * @return mixed
-     */
-    public function fixImageOrientation($image): mixed
-    {
-        $exif = $image->exif();
-
-        if (empty($exif['Orientation'])) {
-            return $image;
-        }
-
-        switch ($exif['Orientation']) {
-            case 3:
-                $image->rotate(180);
-                break;
-            case 6:
-                $image->rotate(-90);
-                break;
-            case 8:
-                $image->rotate(90);
-                break;
-        }
-
-        return $image;
-    }
-
-    /**
-     * @param $image
-     * @param int $limit
-     * @return mixed
-     */
-    public function imageSizeLimit($image, $limit = 2048): mixed
-    {
-        $width = $image->width();
-        $height = $image->height();
-        $dstWidth = $width >= $height ? $limit : null;
-        $dstHeight = $height >= $width ? $limit : null;
-
-        if ($width > $limit || $height > $limit) {
-            $image->resize($dstWidth, $dstHeight, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-        }
-
-        return $image;
-    }
-
-    /**
-     * @param $path
-     * @return JsonResponse
-     */
-    public function delete($path): JsonResponse
+    public function delete(string $path): Array
     {
         try {
-            $path = $path . '.webp';
-            $prefix = $path[0] === '/' ? 'public' : 'public/';
-            if($this->disk->exists($prefix . $path)) {
-                $this->disk->delete($prefix . $path);
+            if (Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
 
-                return response()->json([
+                return [
                     'success' => 1,
-                    'type' => 'success',
-                    'message'  => 'File has been deleted',
-                ], 200);
-            } else {
-                return response()->json([
-                    'success' => 0,
-                    'type' => 'error',
-                    'message'  => 'File dosen\'t exist',
-                ], 200);
+                    'message' => 'Image deleted successfully.',
+                ];
             }
 
-        } catch (\Exception $exception) {
-            Log::error($exception);
-            return response()->json([
+            return [
                 'success' => 0,
-                'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => 'File not found.',
+            ];
+        } catch (\Exception $e) {
+            Log::error($e);
+
+            return [
+                'success' => 0,
+                'message' => 'Delete failed.',
+            ];
         }
     }
+
 }

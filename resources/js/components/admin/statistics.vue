@@ -39,6 +39,11 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const store = useStore<any>();
 
+const visitors = computed(() => store.getters['statistics/visitorsGetter'])
+const visitorsCount = computed(() => store.getters['statistics/visitorsCountGetter'])
+const pageReloads = computed(() => store.getters['statistics/pageReloadsGetter'])
+const pageReloadsCount = computed(() => store.getters['statistics/pageReloadsCountGetter'])
+
 // Example chart data (replace with real stats if needed)
 const chartData = ref({
     labels: [],
@@ -78,7 +83,7 @@ const chartOptions = ref({
         y: {
             beginAtZero: true,
             min: 0,
-            suggestedMax: 100,
+            suggestedMax: pageReloads.value.y + 10,
             ticks: {
                 stepSize: 1,
             },
@@ -86,18 +91,32 @@ const chartOptions = ref({
     }
 });
 
-const visitors = computed(() => store.getters['statistics/visitorsGetter'])
-const visitorsCount = computed(() => store.getters['statistics/visitorsCountGetter'])
-const pageReloads = computed(() => store.getters['statistics/pageReloadsGetter'])
-const pageReloadsCount = computed(() => store.getters['statistics/pageReloadsCountGetter'])
-
 const getStatistics = () => {
     store.dispatch('statistics/getStatistics', statisticFilter).then(res => {
         if(res.data.success) {
+            const visitorsY = visitors.value?.y || [];
+            const pageReloadsY = pageReloads.value?.y || [];
+
+            const allChartYData = [...visitorsY, ...pageReloadsY];
+            const maxSuggested = Math.max(...allChartYData, 0) + 2;
 
             chartData.value.labels = visitors.value.x
             chartData.value.datasets[0].data = visitors.value.y
             chartData.value.datasets[1].data = pageReloads.value.y
+
+            chartOptions.value = {
+                ...chartOptions.value,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        min: 0,
+                        suggestedMax: maxSuggested,
+                        ticks: {
+                            stepSize: 1,
+                        },
+                    },
+                },
+            };
         }
     })
 }
@@ -112,6 +131,9 @@ onMounted(() => {
      <div class="statistics-panel-container">
         <div class="header">
             <h2>Statistics Overview</h2>
+            <select v-model="statisticFilter.filterType" @change="getStatistics()">
+                <option v-for="filter in statisticsOption" :value="filter.value">{{  filter.name  }}</option>
+            </select>
         </div>
 
         <div class="stats-grid">

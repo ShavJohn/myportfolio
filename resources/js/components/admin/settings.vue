@@ -1,13 +1,45 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { Setting } from '../../types/settings';
 
-const store = useStore<any>();
+const store = useStore<any>()
 
-let current = computed({
-    get: () => store.getters['dashboard/currentSelectedGetter'],
-    set: () => store.commit('dashboard/currentSelectedSetter')
-})
+const settings = computed(() => store.getters['settings/settingsGetter'])
+
+const logo = computed(() => settings &&  settings.value ? settings.value.find((setting: Setting) => setting.key === 'logo') : null)
+
+function uploadLogo(e: any): void {
+    let formData = new FormData()
+    formData.append('image', e.target.files[0])
+
+    store.dispatch('settings/logoUpload', formData).then((res) => {
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
+}
+
+function deleteLogo(): void {
+    store.dispatch('settings/logoDelete', logo.value.value).then((res) => {
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
+}
+
 </script>
 
 <template>
@@ -15,7 +47,11 @@ let current = computed({
         <form>
             <div class="panel-element-row">
                 <label for="page-logo">Logo</label>
-                <input type="file" id="page-logo" name="page-logo">
+                <div v-if="logo && logo.value && logo.value.length" class="logo-image-conatiner">
+                    <font-awesome-icon icon="fa-solid fa-x" @click="deleteLogo()" />
+                    <img :src="`storage/${logo.value}`">
+                </div>
+                <input v-else type="file" id="page-logo" name="page-logo" @change="uploadLogo($event)">
             </div>
             <div class="panel-element-row">
                 <label for="page-name">Page name</label>
@@ -37,6 +73,7 @@ let current = computed({
                 <label for="github-url">GitHub Url</label>
                 <input type="text" id="github-url" name="github-url" class="input-text">
             </div>
+        
         </form>
     </div>
 </template>

@@ -1,7 +1,7 @@
 import { GetterTree, MutationTree, ActionTree, ActionContext } from "vuex";
 import { RootState } from "../vuex";
 
-export interface Auth {
+export type Auth = {
     login: string;
     password: string
 }

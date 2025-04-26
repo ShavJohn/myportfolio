@@ -5,6 +5,7 @@ import MpFooter from "../components/main/mp-footer.vue"
 import { ref, onMounted, onUnmounted, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useStore } from "vuex";
+import AlertComponent from "../components/main/alert-component.vue";
 
 const store = useStore<any>()
 
@@ -50,12 +51,17 @@ const updateCircle = () => {
 const addHoverEffect = () => isHovering.value = true;
 const removeHoverEffect = () => isHovering.value = false;
 
+async function getGeneralData() {
+    await store.dispatch('settings/getSettings');
+}
+
 // Attach event listeners
 onMounted(() => {
     window.addEventListener("mousemove", updateCursor);
     updateCircle();
     countVisitors();
     checkElementVisibility();
+    getGeneralData();
     
     // Add hover effect for interactive elements
     document.querySelectorAll("svg, button, a, li").forEach((element) => {
@@ -78,6 +84,7 @@ onUnmounted(() => {
 <template>
    <div>
        <mp-header v-if="showElement"></mp-header>
+       <alert-component></alert-component>
        <router-view></router-view>
        <mp-footer v-if="showElement"></mp-footer>
        <div class="cursor-dot" :style="{ left: `${cursorX}px`, top: `${cursorY}px` }"></div>

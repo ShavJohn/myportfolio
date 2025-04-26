@@ -15,6 +15,11 @@ Route::group(['middleware' => 'api'], function() {
         Route::put('/change-current-user-data/{user}', 'App\Http\Controllers\AuthController@changeUserData');
         Route::post('/logout', 'App\Http\Controllers\AuthController@logOut');
 
+        //Settings
+        Route::post('/upload-logo', 'App\Http\Controllers\SettingController@uploadLogo');
+        Route::delete('/delete-logo/{logo}', 'App\Http\Controllers\SettingController@deleteLogo');
+        Route::get('/get-settings', 'App\Http\Controllers\SettingController@getSettings');
+
         //statistics
         Route::get('/get-statistics-data', 'App\Http\Controllers\StatisticsController@getStatisticsData');
 
