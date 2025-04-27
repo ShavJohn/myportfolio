@@ -18,7 +18,7 @@ interface SettingsInterface
      * @param [type] $data
      * @return mixed
      */
-    public function store($data): mixed;
+    public function storeOrUpdate($data): mixed;
 
     /**
      * Undocumented function

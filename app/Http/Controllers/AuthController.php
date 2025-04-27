@@ -33,11 +33,15 @@ class AuthController extends Controller
             ], 200);
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -81,11 +85,15 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -95,7 +103,7 @@ class AuthController extends Controller
     public function checkAuth(): JsonResponse
     {
         try {
-            $user = auth()->user();
+            $user = auth()->guard()->user();
 
             if($user) {
                 return response()->json([
@@ -114,11 +122,15 @@ class AuthController extends Controller
             }
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -215,11 +227,15 @@ class AuthController extends Controller
             }
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -240,11 +256,15 @@ class AuthController extends Controller
             ]);
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 }

@@ -14,7 +14,6 @@ class Setting extends Model
         'key',
         'value',
         'json_value',
-        'page_setting'
     ];
 
     protected $casts = [

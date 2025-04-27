@@ -40,7 +40,7 @@ class SettingsRepository implements SettingsInterface
      * @param [type] $data
      * @return mixed
      */
-    public function store($data): mixed
+    public function storeOrUpdate($data): mixed
     {
         if($this->ifExist($data['key'])) {
             return $this->model->where('key', $data['key'])->update($data);

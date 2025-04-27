@@ -44,21 +44,31 @@ class SettingController extends Controller
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
-    public function store(Request $request): JsonResponse
+    public function storeOrUpdate(Request $request): JsonResponse
     {
         try {
 
             $settingData = $request->all();
 
-            $res = $this->SettingsRepo->store($settingData);
+            $payloadDaya = [
+                'key' => $settingData['key'],
+                'value' => $settingData['value'],
+                'json_value' => $settingData['json_value']
+            ];
+
+            $this->SettingsRepo->storeOrUpdate($payloadDaya);
 
             return response()->json([
                 'success' => 1,
@@ -67,30 +77,15 @@ class SettingController extends Controller
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
-        }
-    }
-
-    public function update(Request $request, $id): JsonResponse
-    {
-        try {
-
-            return response()->json([
-                'success' => 1,
-                'type' => 'success',
-                'message'  => 'Logo has been deleted',
-            ], 200);
-        } catch(\Exception $exception) {
-            Log::error($exception);
-            return response()->json([
-                'success' => 0,
-                'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -108,7 +103,7 @@ class SettingController extends Controller
                 'value' => $res['path']
             ];
 
-            $this->SettingsRepo->store($data);
+            $this->SettingsRepo->storeOrUpdate($data);
 
             DB::commit();
             return response()->json([
@@ -119,12 +114,15 @@ class SettingController extends Controller
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);
-            dd($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -143,11 +141,15 @@ class SettingController extends Controller
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 }

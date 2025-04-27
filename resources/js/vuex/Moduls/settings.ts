@@ -112,7 +112,32 @@ const actions: SettingsAction = {
             
             throw err;
         }
-    }
+    },
+    async crateOrUpdateSetting(context, data) {
+        try {
+            const res = await axios.put('/update-or-create', data);
+
+            if(res && res.data.success) {
+                context.dispatch('getSettings')
+            }
+
+            return res
+        } catch(err) {
+            const axiosError = err as AxiosError;
+            const errorData = axiosError.response?.data as ErrorResponse;
+            const errorStatus = axiosError.response?.status;
+
+            if (errorData) {
+                context.dispatch('alert/alertResponse', {
+                    type: errorData.type,
+                    status: errorStatus,
+                    message: errorData.message
+                }, { root: true });
+            }
+            
+            throw err;
+        }
+    },
 }
 
 const settings: Module<SettingsState, RootState> = {

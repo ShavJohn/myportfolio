@@ -42,11 +42,15 @@ class StatisticsController extends Controller
             ], 200);
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
 
@@ -68,7 +72,7 @@ class StatisticsController extends Controller
                 $startDate = Carbon::now()->subYear()->format('Y-m-d 00:00:00');
             } else {
                 $firstData = $this->statisticsRepo->getFirstDate();
-                $startDate = Carbon::parse($firstData->statistics_date)->format('Y-m-d 00:00:00');
+                $startDate = Carbon::parse($firstData['statistics_date'])->format('Y-m-d 00:00:00');
             }
 
             $visitorsData = $this->statisticsRepo->getVisitorsData($startDate, $endDate, 'visitor');
@@ -99,12 +103,15 @@ class StatisticsController extends Controller
             ], 200);
         } catch (\Exception $exception) {
             Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
             return response()->json([
                 'success' => 0,
                 'type' => 'error',
-                'message'  => 'Something went wrong',
-            ]);
+                'message' => $message,
+            ], 500);
         }
     }
-
 }

@@ -26,7 +26,6 @@ export interface SettingsMutation extends MutationTree<SettingsState> {
 export interface SettingsAction extends ActionTree<SettingsState, RootState> {
     logoUpload(context: ActionContext<SettingsState, RootState>, data: any): Promise<AxiosResponse<any>>;
     logoDelete(context: ActionContext<SettingsState, RootState>, data: string): Promise<AxiosResponse<any>>;
-    // storeSetting(context: ActionContext<SettingsState, RootState>, data: Setting): Promise<AxiosResponse<any>>;
-    // updateSetting(context: ActionContext<SettingsState, RootState>, data: Setting): Promise<AxiosResponse<any>>;
+    crateOrUpdateSetting(context: ActionContext<SettingsState, RootState>, data: Setting): Promise<AxiosResponse<any>>;
     getSettings(context: ActionContext<SettingsState, RootState>): Promise<AxiosResponse<any>>;
 }

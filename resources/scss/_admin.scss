@@ -77,6 +77,23 @@
                     display: flex;
                     flex-direction: column;
                     gap: 10px;
+
+                    .setting-input-container {
+                        width: 100%;
+                        display: flex;
+
+                        input {
+                            width: 70%;
+                            border-top-right-radius: 0;
+                            border-bottom-right-radius: 0;
+                        }
+
+                        button {
+                            width: 30%;
+                            border-top-left-radius: 0;
+                            border-bottom-left-radius: 0;
+                        }
+                    }
     
                     label {
                         font-size: 15px;
