@@ -24,7 +24,8 @@ class Email extends Model
         'email',
         'phone_number',
         'message',
-        'reply'
+        'reply',
+        'read'
     ];
 
     protected $casts = [

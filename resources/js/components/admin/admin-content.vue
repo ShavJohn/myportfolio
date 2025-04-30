@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import messages from './messages.vue';
+import messages from './messages/message-container.vue';
 import settings from './settings.vue';
 import statistics from './statistics.vue';
 

@@ -50,7 +50,7 @@ if (!function_exists('get_company_name')) {
      */
     function get_company_name(): string
     {
-        $companyName = GeneralSettings::where('key', 'companyName')->first();
+        $companyName = Setting::where('key', 'companyName')->first();
         if ($companyName && $companyName->value) {
             return $companyName->value;
         }

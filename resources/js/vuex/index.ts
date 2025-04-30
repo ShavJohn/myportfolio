@@ -9,6 +9,7 @@ import dashboard from "./Moduls/dashboard";
 import statistics from "./Moduls/statistics";
 import alert from "./Moduls/alert";
 import settings from "./Moduls/settings";
+import emails from "./Moduls/email";
 
 export interface RootState {}
 
@@ -22,6 +23,7 @@ export default createStore({
         dashboard,
         statistics,
         alert,
-        settings
+        settings,
+        emails
     }
 })

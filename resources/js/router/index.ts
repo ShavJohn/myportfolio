@@ -1,12 +1,12 @@
 import {createRouter, createWebHistory, Router} from "vue-router";
 import store from "../vuex";
 
-import Home from '../Views/Home.vue'
-import Dashboard from '../Views/Dashboard.vue'
-import AboutMe from '../Views/About-me.vue'
-import Project from '../Views/Projects.vue'
-import ContactMe from '../Views/Contact-me.vue'
-import Auth from '../Views/Auth.vue'
+const Home = () => import('../Views/Home.vue')
+const Dashboard = () => import('../Views/Dashboard.vue')
+const AboutMe = () => import('../Views/About-me.vue')
+const Project = () => import('../Views/Projects.vue')
+const ContactMe = () => import('../Views/Contact-me.vue')
+const Auth = () => import('../Views/Auth.vue')
 
 const routes: Object = [
     { path: '/', component: Home, name: "Home", meta: { title: "Home" }},
