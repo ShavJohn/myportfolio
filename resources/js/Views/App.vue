@@ -2,11 +2,12 @@
 //Import Section
 import MpHeader from "../components/main/mp-header.vue";
 import MpFooter from "../components/main/mp-footer.vue"
-import { ref, onMounted, onUnmounted, watch, computed } from "vue";
-import { useRoute } from "vue-router";
+import { ref, onMounted, onUnmounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useStore } from "vuex";
 import AlertComponent from "../components/main/alert-component.vue";
 
+const route = useRoute();
 const store = useStore<any>()
 
 //Variable Section
@@ -16,8 +17,8 @@ const cursorY = ref(0);
 const circleX = ref(0);
 const circleY = ref(0);
 const isHovering = ref(false);
+let loader = ref(true)
 
-const route = useRoute();
 const showElement = ref(true);
 
 const checkElementVisibility = () => {
@@ -53,6 +54,9 @@ const removeHoverEffect = () => isHovering.value = false;
 
 async function getGeneralData() {
     await store.dispatch('settings/getSettings');
+    setTimeout(() => {
+        loader.value = false
+    }, 5000)
 }
 
 // Attach event listeners
@@ -83,6 +87,9 @@ onUnmounted(() => {
 
 <template>
    <div>
+        <div class="loader_bg" v-show="loader">
+            <div class="loader"></div>
+        </div>
        <mp-header v-if="showElement"></mp-header>
        <alert-component></alert-component>
        <router-view></router-view>
@@ -90,8 +97,4 @@ onUnmounted(() => {
        <div class="cursor-dot" :style="{ left: `${cursorX}px`, top: `${cursorY}px` }"></div>
        <div class="cursor-circle" :class="{ 'hovered': isHovering }" :style="{ left: `${circleX}px`, top: `${circleY}px` }"></div>
    </div>
-</template>
-
-<style scoped>
-
-</style>
+</template> 
