@@ -1,81 +1,97 @@
 <script setup lang="ts">
-//Import Section
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 import { useStore } from "vuex";
 import gsap from "gsap";
+import { Setting } from "../../types/settings";
 import EditComponentButton from "../main/edit-component-button.vue";
-import TitleModal from "./modals/title-modal.vue"
+import TitleModal from "./modals/title-modal.vue";
 
 const store = useStore<any>();
 
-//Variable Section
-const textAboutMe = computed(() => store.getters["home/textAboutMeGetter"]);
+const settings = computed(() => store.getters["settings/settingsGetter"]);
 
-const tagArr = computed(() => store.getters["home/skillsGetter"]);
-const authUser = computed(() => store.getters['auth/authUserGetter'])
-
-const mainText = ref(tagArr.value[0] || ""); // Start with the first tag
-let wordIndex = 0;
-let glitchTimeline: gsap.core.Timeline | null = null; // Define glitchTimeline to kill it later
-let glitch = ref<HTMLElement | null>(null);
-
-//Function Section
-// Function to shuffle text for the glitch effect
-function shuffleText(original: string) {
-    if (original && typeof original === 'string') {
-        let shuffled = original.split("");
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            let j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+function settingByKey(key: string) {
+    return computed(() => {
+        return (
+        settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: "",
+            value: "",
+            json_value: null,
         }
-        return shuffled.join("");
-    } 
+        );
+    });
 }
 
-// Handle the glitch and text-changing animation
-onMounted(() => {
-    if (!glitch.value) {
-        return;
+const titleText = settingByKey("textAboutMe");
+const textAboutMe = computed(() => store.getters["home/textAboutMeGetter"]);
+const tagArr = computed(() => store.getters["skill/skillsGetter"]);
+const authUser = computed(() => store.getters["auth/authUserGetter"]);
+
+const mainText = ref<string | undefined>(""); // Will set when tagArr is ready
+let wordIndex = 0;
+let glitchTimeline: gsap.core.Timeline | null = null;
+let glitch = ref<HTMLElement | null>(null);
+
+function shuffleText(original: string) {
+    if (original && typeof original === "string") {
+        let shuffled = original.split("");
+        for (let i = shuffled.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled.join("");
     }
+}
+
+// Start glitch loop after tagArr is populated
+function startGlitchLoop() {
+    if (!glitch.value || !tagArr.value.length) return;
 
     function glitchAndChange() {
+        const currentWord = tagArr.value[wordIndex]?.value || "";
+
         glitchTimeline = gsap.timeline();
 
-        // Glitch effect (modern neon flicker + text shuffle)
-        if(glitch.value) {
-            for (let i = 0; i < 6; i++) {
-                glitchTimeline.to(".glitch", {
-                    textShadow: `4px 4px 0 #ff007f, -4px -4px 0 #00d4ff`, // Neon pink & electric blue
-                    color: i % 2 === 0 ? "#7a00ff" : "#00d4ff", // Cyber purple & electric blue
-                    duration: 0.1,
-                    onComplete: () => {
-                        // Update the text when glitch is complete
-                        mainText.value = shuffleText(tagArr.value[wordIndex]);
-                    },
-                });
-            }
-        }
-        
-
-        if(glitch.value) {
-            // Final word appears in white
-            glitchTimeline.to(".glitch", {
-                textShadow: "none",
-                color: "#ffffff",
-                duration: 0.2,
-                onComplete: () => {
-                    // Update to the next word
-                    wordIndex = (wordIndex + 1) % tagArr.value.length;
-                    mainText.value = tagArr.value[wordIndex]; 
-                },
-            });
+        for (let i = 0; i < 6; i++) {
+        glitchTimeline.to(glitch.value, {
+            textShadow: `4px 4px 0 #ff007f, -4px -4px 0 #00d4ff`,
+            color: i % 2 === 0 ? "#7a00ff" : "#00d4ff",
+            duration: 0.1,
+            onComplete: () => {
+            mainText.value = shuffleText(currentWord);
+            },
+        });
         }
 
-        // Pause before repeating the glitch effect
+        glitchTimeline.to(glitch.value, {
+        textShadow: "none",
+        color: "#ffffff",
+        duration: 0.2,
+        onComplete: () => {
+            wordIndex = (wordIndex + 1) % tagArr.value.length;
+            mainText.value = tagArr.value[wordIndex].value || "";
+        },
+        });
+
         glitchTimeline.to({}, { duration: 3, onComplete: glitchAndChange });
     }
 
+    // Set first word and start
+    mainText.value = tagArr.value[wordIndex]?.value || "";
     glitchAndChange();
+}
+
+onMounted(() => {
+    // Wait until tagArr is populated before starting
+    watch(
+        tagArr,
+        (newTags) => {
+        if (newTags.length) {
+            startGlitchLoop();
+        }
+        },
+        { immediate: true }
+    );
 });
 
 onBeforeUnmount(() => {
@@ -92,7 +108,7 @@ onBeforeUnmount(() => {
         <div class="welcome-title-animation">
             <div class="container">
                 <p class="text">
-                    {{ textAboutMe }}
+                    {{ titleText.value }}
                     <span ref="glitch" class="glitch">{{ mainText }}</span>
                 </p>
             </div>

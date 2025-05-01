@@ -10,6 +10,7 @@ import statistics from "./Moduls/statistics";
 import alert from "./Moduls/alert";
 import settings from "./Moduls/settings";
 import emails from "./Moduls/email";
+import skill from "./Moduls/skills";
 
 export interface RootState {}
 
@@ -24,6 +25,7 @@ export default createStore({
         statistics,
         alert,
         settings,
-        emails
+        emails,
+        skill
     }
 })

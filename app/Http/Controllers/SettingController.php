@@ -61,11 +61,11 @@ class SettingController extends Controller
         try {
 
             $settingData = $request->all();
-
+            
             $payloadDaya = [
                 'key' => $settingData['key'],
-                'value' => $settingData['value'],
-                'json_value' => $settingData['json_value']
+                'value' => array_key_exists('value' ,$settingData) ? $settingData['value'] : '',
+                'json_value' => array_key_exists('json_value' ,$settingData) ? $settingData['json_value'] : ''
             ];
 
             $this->SettingsRepo->storeOrUpdate($payloadDaya);

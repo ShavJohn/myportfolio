@@ -1,44 +1,74 @@
 <script setup lang="ts">
-import { ref, onMounted, nextTick, computed  } from "vue";
+import { onMounted, nextTick, computed, watch } from "vue";
 import { useStore } from "vuex";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Setting } from '../../types/settings';
 import EditComponentButton from "../main/edit-component-button.vue";
 import textAboutMeModal from "./modals/text-about-me-modal.vue";
 
 const store = useStore<any>();
 
-let shotAboutMe  = computed(() => store.getters['home/shortAboutMeGetter'])
+const settings = computed(() => store.getters['settings/settingsGetter'])
+
+function settingByKey(key: string) {
+    return computed(() => {
+        return settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: '',
+            value: '',
+            json_value: null
+        };
+    });
+}
+
+const shortAboutMe = settingByKey('shortAboutMe');
 
 function sentenceToArray(sentence: string): string[] {
-    // Split the sentence by spaces and return the array of words
     return sentence.split(" ");
 }
 
-const authUser = computed(() => store.getters['auth/authUserGetter'])
-const arr = computed(() => sentenceToArray(shotAboutMe.value));
+const authUser = computed(() => store.getters['auth/authUserGetter']);
+const arr = computed(() => sentenceToArray(shortAboutMe.value.value || ""));
 
 gsap.registerPlugin(ScrollTrigger);
 
-onMounted(async () => {
-    await nextTick(); // Ensure DOM is ready before animations run
+async function runScrollAnimation() {
+    await nextTick(); // wait for DOM update
+    if (!arr.value.length) return;
 
-    gsap.fromTo(
-        ".word",
-        { color: "gray" }, // Initial gray color
-        {
-            color: "white",
-            scrollTrigger: {
-                trigger: "body",
-                start: "top+=700px",
-                end: "top+=1700px",
-                scrub: 1, // Smooth transition on scroll
-            },
-            stagger: 0.2, // Words appear one after another
+    const words = document.querySelectorAll(".word");
+    if (words.length === 0) return;
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "body",
+            start: "top+=700px",
+            end: "top+=1700px",
+            scrub: 1,
         }
-    );
-});
+    });
 
+    // Animate all words from gray to white
+    tl.to(words, {
+        color: "white",
+        stagger: 0.2,
+        duration: 1,
+    });
+}
+
+onMounted(() => {
+    // Run when settings are already loaded
+    if (arr.value.length) {
+        runScrollAnimation();
+    }
+
+    // Or reactively wait for arr to become populated
+    watch(arr, (newVal) => {
+        if (newVal.length) {
+            runScrollAnimation();
+        }
+    });
+});
 </script>
 
 <template>

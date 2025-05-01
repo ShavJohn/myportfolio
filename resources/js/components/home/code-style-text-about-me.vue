@@ -10,7 +10,7 @@ const store = useStore();
 const aboutMe = computed(() => store.state.home.myDitailsArray);
 const education = computed(() => store.state.home.educationArray);
 const workExperience = computed(() => store.state.home.workArray);
-const skills = computed(() => store.state.home.skillsArray);
+const skills = computed(() => store.state.skill.skillsArray);
 const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 const eduacationLines = computed(() => {

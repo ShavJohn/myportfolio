@@ -54,9 +54,10 @@ const removeHoverEffect = () => isHovering.value = false;
 
 async function getGeneralData() {
     await store.dispatch('settings/getSettings');
+    await store.dispatch('skill/getSkills');
     setTimeout(() => {
         loader.value = false
-    }, 5000)
+    }, 1000)
 }
 
 // Attach event listeners

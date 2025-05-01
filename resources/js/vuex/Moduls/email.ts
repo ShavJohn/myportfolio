@@ -148,11 +148,8 @@ const actions: EmailAction = {
         }
     },
     async replyToMessage(context, data) {
-        console.log(data, 78787878)
         try {
             const res = await  axios.post('/reply-to-message', data)
-
-            console.log(res)
 
             return res
         } catch(err) {

@@ -1,29 +1,82 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 import MpModal from "../../main/mp-modal.vue"
+import { Setting } from '../../../types/settings';
 import { useStore } from "vuex";
 const store = useStore<any>();
 
-const textAboutMe = computed({
-    get: () => store.getters["home/textAboutMeGetter"],
-    set: (value) => store.commit("home/textAboutMeSetter", value),
-});
+const settings = computed(() => store.getters['settings/settingsGetter'])
+
+function settingByKey(key: string) {
+    return computed(() => {
+        return settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: '',
+            value: '',
+            json_value: null
+        };
+    });
+}
+
+const titleText = settingByKey('textAboutMe')
 
 let tagArr =  computed(() => {
-    return store.getters['home/skillsGetter']
+    return store.getters['skill/skillsGetter']
 })
 
 let tag = ref<string>('')
 
+function update(data: Setting, key: string) {
+    if(data.key === '') {
+        data.key = key
+    }
+    store.dispatch('settings/crateOrUpdateSetting', data).then((res) => {
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
+}
+
 function addToArr(): void {
     if (tag.value.trim()) { 
-        store.commit("home/skillsSetter", tag.value); // Add skill to Vuex store
+        const data = {
+            key: tag.value.trim().replace(/\s+/g, "_").toLowerCase(),
+            value: tag.value
+        }
+        store.commit("skill/skillSetter", data); 
+        store.dispatch('skill/stroeSkill', data).then(res => {
+            store.dispatch('alert/alertResponse', {
+                'type': res?.data?.type,
+                'message': res?.data?.message
+            })
+        }).catch((err) => {
+            store.dispatch('alert/alertResponse', {
+                'type': err?.data?.type,
+                'message': err?.data?.message
+            })
+        })
         tag.value = "";
     }
 }
 
-function removeTag(key: number): void {
+function removeTag(tag: Object, key: number): void {
     tagArr.value.splice(key, 1); // Remove skill from Vuex store
+    store.dispatch('skill/removeSkill', tag).then(res => {
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
 }
 
 </script>
@@ -40,7 +93,7 @@ function removeTag(key: number): void {
                     <label for="title-text">Title text</label>
                 </div>
                 <div class="w-50">
-                    <input type="text" v-model="textAboutMe" class="form-input" id="title-text" placeholder="Eneter title text" />
+                    <input type="text" v-model="titleText.value" class="form-input" id="title-text" placeholder="Eneter title text" />
                 </div>
             </div>
             <div class="row-element">
@@ -54,8 +107,8 @@ function removeTag(key: number): void {
                     </div>
                     <div class="tags-container">
                         <div class="tag-item" v-for="(tag, key) in tagArr" :key="key">
-                            <span class="tag-text">{{  tag  }}</span>
-                            <font-awesome-icon @click="removeTag(key)" icon="fa-solid fa-x" />
+                            <span class="tag-text">{{  tag.value  }}</span>
+                            <font-awesome-icon @click="removeTag(tag, key)" icon="fa-solid fa-x" />
                         </div>
                     </div>
                 </div>
@@ -65,7 +118,7 @@ function removeTag(key: number): void {
             <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
                 Close
             </button>
-            <button class="btn btn-primary">
+            <button class="btn btn-primary" @click="update(titleText, 'textAboutMe')">
                 Update 
             </button>
         </template>

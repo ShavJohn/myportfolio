@@ -12,6 +12,9 @@ Route::group(['middleware' => 'api'], function() {
     //message route
     Route::post('/send-message', 'App\Http\Controllers\EmailController@store');
 
+    //Skills
+    Route::get('/get-skills', 'App\Http\Controllers\SkillController@getSkills');
+
     //Settings
     Route::get('/get-settings', 'App\Http\Controllers\SettingController@getSettings');
 
@@ -25,6 +28,13 @@ Route::group(['middleware' => 'api'], function() {
         Route::get('/get-messages', 'App\Http\Controllers\EmailController@index');
         Route::post('/reply-to-message', 'App\Http\Controllers\EmailController@reply');
         Route::put('/update-message-status/{messageId}', 'App\Http\Controllers\EmailController@updateStatus');
+
+        //skills
+        Route::post('/store-skill', 'App\Http\Controllers\SkillController@storeSkill');
+        Route::delete('/remove-skill/{skillId}', 'App\Http\Controllers\SkillController@removeSkill');
+
+        //home
+        Route::post('/title-text-update-or-create', 'App\Http\Controllers\SettingController@storeOrUpdate');
 
         //Settings
         Route::post('/upload-logo', 'App\Http\Controllers\SettingController@uploadLogo');
