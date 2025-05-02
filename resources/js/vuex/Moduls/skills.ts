@@ -36,7 +36,7 @@ const actions: SkillsAction = {
             const res = await axiosInstance.post('/store-skill', data)
 
             if(res && res.data && res.data.success) {
-                context.dispatch('getSkill')
+                context.dispatch('getSkills')
             }
 
             return res

@@ -73,6 +73,7 @@ class SkillController extends Controller
             $res = $this->skillsRepo->storeSkill($skill);
 
             if($res) {
+                DB::commit();
                 return response()->json([
                     'success' => 1,
                     'type' => 'success',
@@ -80,7 +81,7 @@ class SkillController extends Controller
                 ], 200);
             }
 
-            DB::commit();
+            DB::rollBack();
             return response()->json([
                 'success' => 1,
                 'type' => 'success',
@@ -114,6 +115,7 @@ class SkillController extends Controller
             $res = $this->skillsRepo->removeSkill($skillId);
 
             if($res) {
+                DB::commit();
                 return response()->json([
                     'success' => 1,
                     'type' => 'success',
@@ -121,7 +123,7 @@ class SkillController extends Controller
                 ], 200);
             }
 
-            DB::commit();
+            DB::rollBack();
             return response()->json([
                 'success' => 1,
                 'type' => 'success',
