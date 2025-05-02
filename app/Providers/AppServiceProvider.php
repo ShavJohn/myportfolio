@@ -10,6 +10,8 @@ use App\Interfaces\StatisticsInterface;
 use App\Repositories\StatisticsRepository;
 use App\Interfaces\SkillsInterface;
 use App\Repositories\SkillsRepository;
+use App\Interfaces\ExperienceInterface;
+use App\Repositories\ExperienceRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -43,6 +45,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SkillsInterface::class,
             SkillsRepository::class
+        );
+        $this->app->bind(
+            ExperienceInterface::class,
+            ExperienceRepository::class
         );
     }
 }

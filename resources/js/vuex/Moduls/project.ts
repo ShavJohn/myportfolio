@@ -1,6 +1,8 @@
 import type { ProjectState, ProjectGetter, ProjectMutation, ProjectAction } from '../../types/project'
 import { Module } from 'vuex'
 import type { RootState } from '../index'
+import axiosInstance from '../../axios'
+import axios from 'axios';
 
 const state: ProjectState = {
     project: {

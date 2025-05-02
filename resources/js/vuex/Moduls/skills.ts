@@ -1,8 +1,8 @@
 import type { SkillsState, SkillsGetter, SkillsMutation, SkillsAction } from '../../types/skills'
 import { Module } from 'vuex'
 import type { RootState } from '../index'
-import axios from '../../axios'
-import { AxiosError } from 'axios';
+import axiosInstance from '../../axios'
+import axios from 'axios';
 
 interface ErrorResponse {
     type: string;
@@ -33,7 +33,7 @@ const mutations: SkillsMutation = {
 const actions: SkillsAction = {
     async stroeSkill(context, data) {
         try {
-            const res = await axios.post('/store-skill', data)
+            const res = await axiosInstance.post('/store-skill', data)
 
             if(res && res.data && res.data.success) {
                 context.dispatch('getSkill')
@@ -41,15 +41,21 @@ const actions: SkillsAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -58,7 +64,7 @@ const actions: SkillsAction = {
     },
     async getSkills(context) {
         try {
-            const res = await axios.get('/get-skills')
+            const res = await axiosInstance.get('/get-skills')
 
             if(res && res.data && res.data.success) {
                 context.commit('skillsSetter', res.data.skills)
@@ -66,15 +72,21 @@ const actions: SkillsAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -83,7 +95,7 @@ const actions: SkillsAction = {
     },
     async removeSkill(context, data) {
         try {
-            const res = await axios.delete(`/remove-skill/${data.id}`)
+            const res = await axiosInstance.delete(`/remove-skill/${data.id}`)
 
             if(res && res.data && res.data.success) {
                 context.dispatch('getSkills')
@@ -91,15 +103,21 @@ const actions: SkillsAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             

@@ -1,8 +1,8 @@
 import { EmailState, EmailGetter, EmailMutation, EmailAction } from "../../types/email";
 import type { RootState } from "..";
 import { Module } from "vuex";
-import  axios  from "../../axios";
-import { AxiosError } from 'axios';
+import  axiosInstance  from "../../axios";
+import axios from 'axios';
 
 interface ErrorResponse {
     type: string;
@@ -71,42 +71,54 @@ const mutations: EmailMutation = {
 const actions: EmailAction = {
     async sendMessage(context, data) {
         try {
-            const res = await axios.post('/send-message', data)
+            const res = await axiosInstance.post('/send-message', data)
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
-            
+        
             throw err;
         }
     },
     async updateEmailStatus(context, data) {
         try {
-            const res = await  axios.put(`/update-message-status/${data.id}`)
+            const res = await  axiosInstance.put(`/update-message-status/${data.id}`)
             if(res && res.data) {
                 context.commit('markMessageAsRead', data.key)
             }
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -115,7 +127,7 @@ const actions: EmailAction = {
     },
     async getContactMessages(context, data) {
         try {
-            const res = await axios.get('/get-messages', {
+            const res = await axiosInstance.get('/get-messages', {
                 params: {
                     skip: data.skip,
                     take: data.take
@@ -132,15 +144,21 @@ const actions: EmailAction = {
            }
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -149,20 +167,25 @@ const actions: EmailAction = {
     },
     async replyToMessage(context, data) {
         try {
-            const res = await  axios.post('/reply-to-message', data)
+            const res = await  axiosInstance.post('/reply-to-message', data)
 
             return res
         } catch(err) {
-            console.log(err, 564654564)
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             

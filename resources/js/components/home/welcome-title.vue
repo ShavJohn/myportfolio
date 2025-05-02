@@ -23,7 +23,6 @@ function settingByKey(key: string) {
 }
 
 const titleText = settingByKey("textAboutMe");
-const textAboutMe = computed(() => store.getters["home/textAboutMeGetter"]);
 const tagArr = computed(() => store.getters["skill/skillsGetter"]);
 const authUser = computed(() => store.getters["auth/authUserGetter"]);
 

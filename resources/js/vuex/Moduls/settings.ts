@@ -1,8 +1,8 @@
 import { SettingsState, SettingsGetter, SettingsMutation, SettingsAction } from "../../types/settings";
 import { RootState, } from "..";
 import { Module } from "vuex";
-import axios from "../../axios";
-import { AxiosError } from "axios";
+import axiosInstance from '../../axios'
+import axios from 'axios';
 
 interface ErrorResponse {
     type: string;
@@ -42,22 +42,28 @@ const actions: SettingsAction = {
             headers: { 'content-type': 'multipart/form-data' }
         }
         try {
-            const res = await axios.post('/upload-logo', data, config)
+            const res = await axiosInstance.post('/upload-logo', data, config)
 
             if(res && res.data.success) {
                 context.dispatch('getSettings')
             }
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -69,21 +75,27 @@ const actions: SettingsAction = {
             const dotIndex = data.lastIndexOf('.');
             const imageName = data.substring(0, dotIndex);
 
-            const res = await axios.delete(`/delete-logo/${imageName}`)
+            const res = await axiosInstance.delete(`/delete-logo/${imageName}`)
             if(res && res.data.success) {
                 context.dispatch('getSettings')
             }
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -92,21 +104,27 @@ const actions: SettingsAction = {
     },
     async getSettings(context) {
         try {
-            const res = await axios.get('/get-settings')
+            const res = await axiosInstance.get('/get-settings')
             if(res && res.data.success) {
                 context.commit('settingsMuation', res.data.settings)
             }
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             
@@ -115,7 +133,7 @@ const actions: SettingsAction = {
     },
     async crateOrUpdateSetting(context, data) {
         try {
-            const res = await axios.put('/update-or-create', data);
+            const res = await axiosInstance.put('/update-or-create', data);
 
             if(res && res.data.success) {
                 context.dispatch('getSettings')
@@ -123,15 +141,21 @@ const actions: SettingsAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: "An unexpected error occurred."
                 }, { root: true });
             }
             

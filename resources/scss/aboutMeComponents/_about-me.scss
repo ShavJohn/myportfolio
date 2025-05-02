@@ -51,12 +51,14 @@
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                width: 30%;
             }
 
             .about-me-details {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
+                width: 70%;
             }
 
             &:first-of-type {

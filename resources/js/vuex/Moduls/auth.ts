@@ -1,8 +1,8 @@
 import type { AuthState, AuthGetter, AuthMutation, AuthAction } from '../../types/auth'
 import { Module } from 'vuex'
 import type { RootState } from '../index'
-import { AxiosError } from 'axios';
-import axios from '../../axios'; 
+import axios from 'axios';
+import axiosInstance from '../../axios'; 
 
 interface ErrorResponse {
     type: string;
@@ -42,7 +42,7 @@ const mutations: AuthMutation = {
 const actions: AuthAction = {
     async login(context, data) {
         try {
-            const res = await axios.post('/login', data);
+            const res = await axiosInstance.post('/login', data);
             
             if(res && res.data && res.data.success) {
                 localStorage.setItem('access_token', res.data.token);
@@ -55,15 +55,21 @@ const actions: AuthAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            if (errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    type: errorData.type,
-                    status: errorStatus,
-                    message: errorData.message
+                    type: "error",
+                    message: err
                 }, { root: true });
             }
             
@@ -72,18 +78,25 @@ const actions: AuthAction = {
     },
     async getAuthUser(context) {
          try {
-            const res = await axios.get('/check-auth')
+            const res = await axiosInstance.get('/check-auth')
             return res
          } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-            if(errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    'type': errorData.type,
-                    'status': errorStatus,
-                    'message': errorData.message
-                }, { root:true })
+                    type: "error",
+                    message: err
+                }, { root: true });
             }
 
             throw err
@@ -91,19 +104,26 @@ const actions: AuthAction = {
     },
     async saveUserChanges(context, data) {
         try {
-            const res = await axios.put(`/change-current-user-data/${data.id}`, data)
+            const res = await axiosInstance.put(`/change-current-user-data/${data.id}`, data)
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-            if(errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    'type': errorData.type,
-                    'status': errorStatus,
-                    'message': errorData.message
-                }, { root:true })
+                    type: "error",
+                    message: err
+                }, { root: true });
             }
 
             throw err
@@ -111,19 +131,26 @@ const actions: AuthAction = {
     },
     async createNewUser(context, data) {
         try {
-            const res = await axios.post(`/create-user`, data)
+            const res = await axiosInstance.post(`/create-user`, data)
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-            if(errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    'type': errorData.type,
-                    'status': errorStatus,
-                    'message': errorData.message
-                }, { root:true })
+                    type: "error",
+                    message: err
+                }, { root: true });
             }
 
             throw err
@@ -131,7 +158,7 @@ const actions: AuthAction = {
     },
     async logOut(context) {
         try {
-            const res = await axios.post('/logout')
+            const res = await axiosInstance.post('/logout')
 
             if(res && res.data && res.data.success) {
                 context.commit('accessTokenSetter', '')
@@ -141,16 +168,24 @@ const actions: AuthAction = {
             }
 
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-            if(errorData) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
                 context.dispatch('alert/alertResponse', {
-                    'type': errorData.type,
-                    'status': errorStatus,
-                    'message': errorData.message
-                }, { root:true })
+                    type: "error",
+                    message: err
+                }, { root: true });
             }
+        
 
             throw err
         }

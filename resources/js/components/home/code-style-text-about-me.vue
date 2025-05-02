@@ -5,12 +5,17 @@ import codeStyleModal from "./modals/code-style-modal.vue";
 import { useStore } from "vuex";
 import type { Entry, DitailsEntry } from "../../types/home";
 
+type Skill = {
+    key: string,
+    value: string
+}
+
 const store = useStore();
 
 const aboutMe = computed(() => store.state.home.myDitailsArray);
 const education = computed(() => store.state.home.educationArray);
 const workExperience = computed(() => store.state.home.workArray);
-const skills = computed(() => store.state.skill.skillsArray);
+const skills = computed(() => store.getters["skill/skillsGetter"]);
 const authUser = computed(() => store.getters['auth/authUserGetter'])
 
 const eduacationLines = computed(() => {
@@ -51,7 +56,7 @@ const codeLines = computed(() => [
     `<span class='editor-dots'>....</span>}`,
     "",
     `<span class='editor-dots'>....</span><span class='editor-function'>skills</span>() {`,
-    `<span class='editor-dots'>......</span><span class="editor-return">return</span> [ ${skills.value.map((skill: string) => `<span class='editor-string'>"${skill}"</span>`).join(', ')} <span class="text-indicator"></span>];`,
+    `<span class='editor-dots'>......</span><span class="editor-return">return</span> [ ${skills.value.map((skill: Skill) => `<span class='editor-string'>"${skill.value}"</span>`).join(', ')} <span class="text-indicator"></span>];`,
     "<span class='editor-dots'>....</span>}",
     "}",
 ]);

@@ -1,8 +1,8 @@
 import type { HomeState, HomeGetter, HomeMutation, HomeAction } from '../../types/home'
 import { Module } from 'vuex'
 import type { RootState } from '../index'
-import axios from '../../axios'
-import { AxiosError } from 'axios';
+import axiosInstance from '../../axios'
+import axios from 'axios';
 
 interface ErrorResponse {
     type: string;

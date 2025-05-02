@@ -1,8 +1,8 @@
 import type { StatisticsState, StatisticsGetter, StatisticsMutation, StatisticsAction } from "../../types/statistics";
 import { Module } from "vuex";
 import { RootState } from "../index";
-import { AxiosError } from 'axios';
-import axios from '../../axios'; 
+import axiosInstance from '../../axios'
+import axios from 'axios';
 
 interface ErrorResponse {
     type: string;
@@ -50,28 +50,33 @@ const mutations: StatisticsMutation = {
 const actions: StatisticsAction = {
     async countVisitor(context, data) {
         try {
-            const res = await axios.post('/count-visitor', data)
+            const res = await axiosInstance.post('/count-visitor', data)
 
             return res;
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            // if (errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         type: errorData.type,
-            //         status: errorStatus,
-            //         message: errorData.message
-            //     }, { root: true });
-            // }
-
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
+                context.dispatch('alert/alertResponse', {
+                    type: "error",
+                    message: "An unexpected error occurred."
+                }, { root: true });
+            }
             throw err
         }
     },
     async getStatistics(context, data) {
         try {
-            const res = await axios.get('/get-statistics-data', {params: data})
+            const res = await axiosInstance.get('/get-statistics-data', {params: data})
 
             if(res && res.data) {
                 context.commit('visitorsSetter', res.data.visitors)
@@ -82,17 +87,23 @@ const actions: StatisticsAction = {
 
             return res
         } catch(err) {
-            const axiosError = err as AxiosError;
-            const errorData = axiosError.response?.data as ErrorResponse;
-            const errorStatus = axiosError.response?.status;
-
-            // if (errorData) {
-            //     context.dispatch('alert/alertResponse', {
-            //         type: errorData.type,
-            //         status: errorStatus,
-            //         message: errorData.message
-            //     }, { root: true });
-            // }
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
+                context.dispatch('alert/alertResponse', {
+                    type: "error",
+                    message: "An unexpected error occurred."
+                }, { root: true });
+            }
 
             throw err
         }

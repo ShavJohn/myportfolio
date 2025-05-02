@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('experiences', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('desciption');
+            $table->longText('description');
             $table->string('company');
-            $table->string('startDate');
-            $table->string('endDate');
-            $table->string('tillNow');
+            $table->dateTime('startDate');
+            $table->dateTime('endDate');
+            $table->boolean('tillNow');
             $table->timestamps();
         });
     }

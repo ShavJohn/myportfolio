@@ -1,9 +1,7 @@
 import { createStore } from "vuex";
 import home from './Moduls/home'
-// import dashboard from './Moduls/dashboard'
-import aboutme from "./Moduls/aboutme";
+import position from "./Moduls/position";
 import project from "./Moduls/project";
-import contactus from "./Moduls/contactus";
 import auth from "./Moduls/auth";
 import dashboard from "./Moduls/dashboard";
 import statistics from "./Moduls/statistics";
@@ -17,9 +15,8 @@ export interface RootState {}
 export default createStore({
     modules: {
         home,
-        aboutme,
+        position,
         project,
-        contactus,
         auth,
         dashboard,
         statistics,

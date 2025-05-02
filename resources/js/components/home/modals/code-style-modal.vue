@@ -40,17 +40,9 @@ let work = reactive<Entry>({
 const myDitailsArray = computed(() => store.state.home.myDitailsArray);
 const educationArray = computed(() => store.state.home.educationArray);
 const workArray = computed(() => store.state.home.workArray);
-const skills = computed(() => store.state.home.skillsArray);
 
-let skill = ref<string>('');
-
-function addToArr(dataType: 'skills' | 'myDitails' | 'education' | 'work'): void {
-    if (dataType === 'skills') {
-        if (skill.value.trim()) {
-            store.commit("home/skillsSetter", skill.value.trim());
-            skill.value = "";
-        }
-    } else if (dataType === 'myDitails') {
+function addToArr(dataType: 'myDitails' | 'education' | 'work'): void {
+     if (dataType === 'myDitails') {
         store.commit("home/myDitailsArraySetter", { ...myDitails });
         myDitails.key = '';
         myDitails.value = '';
@@ -75,11 +67,8 @@ function addToArr(dataType: 'skills' | 'myDitails' | 'education' | 'work'): void
     }
 }
 
-function removeFromArr(index: number, type: 'skills' | 'myDitails' | 'education' | 'work'): void {
-    if (type === 'skills') {
-        skills.value.splice(index, 1);
-        store.commit("home/skillsArraySetter", skills.value);
-    } else if (type === 'myDitails') {
+function removeFromArr(index: number, type: 'myDitails' | 'education' | 'work'): void {
+    if (type === 'myDitails') {
         myDitailsArray.value.splice(index, 1);
         store.commit("home/myDitailsArraySetter", myDitailsArray.value);
     } else if (type === 'education') {
@@ -187,26 +176,6 @@ function formatDateRange(start: string, end: string): string {
                             {{ formatDateRange(w.starDate, w.endDate) }} {{ w.inputText }}
                         </span>
                         <font-awesome-icon @click="removeFromArr(index, 'work')" icon="fa-solid fa-x" />
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Skills Section -->
-        <div class="row-element">
-            <div class="w-50">
-                <label for="my-skils">Skills</label>
-            </div>
-            <div class="w-50">
-                <div class="input-with-btn">
-                    <input v-model="skill" @keydown.enter="addToArr('skills')" type="text" id="my-skils"
-                        placeholder="Enter skills" />
-                    <button @click="addToArr('skills')">Add</button>
-                </div>
-                <div class="tags-container">
-                    <div class="tag-item" v-for="(s, index) in skills" :key="index">
-                        <span class="tag-text">{{ s }}</span>
-                        <font-awesome-icon @click="removeFromArr(index, 'skills')" icon="fa-solid fa-x" />
                     </div>
                 </div>
             </div>

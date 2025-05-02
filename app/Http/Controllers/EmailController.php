@@ -11,6 +11,7 @@ use App\Mail\ContactMeMessgae;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Interfaces\EmailInterface;
+use App\Http\Requests\EmailRequest;
 
 class EmailController extends Controller
 {
@@ -68,7 +69,7 @@ class EmailController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(EmailRequest $request): JsonResponse
     {
         try{
             $validate = $request->validate([

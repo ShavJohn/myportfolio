@@ -15,6 +15,9 @@ Route::group(['middleware' => 'api'], function() {
     //Skills
     Route::get('/get-skills', 'App\Http\Controllers\SkillController@getSkills');
 
+    //Experinece
+    Route::get('/get-all-experinece', 'App\Http\Controllers\ExperienceController@getAll');
+
     //Settings
     Route::get('/get-settings', 'App\Http\Controllers\SettingController@getSettings');
 
@@ -32,6 +35,11 @@ Route::group(['middleware' => 'api'], function() {
         //skills
         Route::post('/store-skill', 'App\Http\Controllers\SkillController@storeSkill');
         Route::delete('/remove-skill/{skillId}', 'App\Http\Controllers\SkillController@removeSkill');
+
+        //Positions
+        Route::post('/experience-store', 'App\Http\Controllers\ExperienceController@store');
+        Route::put('/experience/{id}', 'App\Http\Controllers\ExperienceController@update');
+        Route::delete('/experience/{id}', 'App\Http\Controllers\ExperienceController@delete');
 
         //home
         Route::post('/title-text-update-or-create', 'App\Http\Controllers\SettingController@storeOrUpdate');

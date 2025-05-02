@@ -55,6 +55,7 @@ const removeHoverEffect = () => isHovering.value = false;
 async function getGeneralData() {
     await store.dispatch('settings/getSettings');
     await store.dispatch('skill/getSkills');
+    await store.dispatch('position/getPositions');
     setTimeout(() => {
         loader.value = false
     }, 1000)

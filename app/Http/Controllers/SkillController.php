@@ -66,6 +66,7 @@ class SkillController extends Controller
     public function storeSkill(Request $request): JsonResponse
     {
         try {
+            DB::beginTransaction();
 
             $skill = $request->all();
 
@@ -79,6 +80,7 @@ class SkillController extends Controller
                 ], 200);
             }
 
+            DB::commit();
             return response()->json([
                 'success' => 1,
                 'type' => 'success',
@@ -86,6 +88,7 @@ class SkillController extends Controller
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);
+            DB::rollBack();
             $message = config('app.debug') 
                 ? $exception->getMessage()
                 : 'Something went wrong, please try again later.';
@@ -107,7 +110,7 @@ class SkillController extends Controller
     public function removeSkill($skillId): JsonResponse
     {
         try {
-
+            DB::beginTransaction();
             $res = $this->skillsRepo->removeSkill($skillId);
 
             if($res) {
@@ -117,6 +120,8 @@ class SkillController extends Controller
                     'message' => 'Skill has been removed',
                 ], 200);
             }
+
+            DB::commit();
             return response()->json([
                 'success' => 1,
                 'type' => 'success',
@@ -125,6 +130,7 @@ class SkillController extends Controller
 
         } catch(\Exception $exception) {
             Log::error($exception);
+            DB::rollBack();
             $message = config('app.debug') 
                 ? $exception->getMessage()
                 : 'Something went wrong, please try again later.';
