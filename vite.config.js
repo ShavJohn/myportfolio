@@ -9,5 +9,16 @@ export default defineConfig({
             refresh: true,
         }),
         vue(),
-    ]
+    ],
+    build: {
+        chunkSizeWarningLimit: 1700,
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            input: [
+                'resources/js/app.ts',
+                'resources/scss/app.scss',
+            ],
+        }
+    }
 });
