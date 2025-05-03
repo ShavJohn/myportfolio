@@ -86,6 +86,8 @@ onUnmounted(() => {
         element.removeEventListener("mouseleave", removeHoverEffect);
     });
 });
+
+//Updated for testing
 </script>
 
 <template>
