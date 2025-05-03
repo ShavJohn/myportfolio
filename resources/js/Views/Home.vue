@@ -17,7 +17,7 @@ let msg = computed(() => {
 <template>
     <div>
         <welcome-title></welcome-title>
-        <!-- <text-about-me-scroll></text-about-me-scroll> -->
+        <text-about-me-scroll></text-about-me-scroll>
         <code-style-text-abou-me></code-style-text-abou-me>
     </div>
 </template>

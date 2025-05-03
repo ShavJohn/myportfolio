@@ -11,8 +11,9 @@ use App\Repositories\StatisticsRepository;
 use App\Interfaces\SkillsInterface;
 use App\Repositories\SkillsRepository;
 use App\Interfaces\ExperienceInterface;
+use App\Interfaces\ProjectsInterface;
 use App\Repositories\ExperienceRepository;
-
+use App\Repositories\ProjectsRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,6 +50,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ExperienceInterface::class,
             ExperienceRepository::class
+        );
+        $this->app->bind(
+            ProjectsInterface::class,
+            ProjectsRepository::class
         );
     }
 }

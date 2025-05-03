@@ -8,6 +8,8 @@ import { useStore } from "vuex";
 const store = useStore<any>()
 
 const authUser = computed(() => store.getters['auth/authUserGetter'])
+ 
+const projects = computed(() => store.getters['project/projectsGetter'])
 
 let modalType = ref<string>('add')
 
@@ -17,7 +19,7 @@ let modalType = ref<string>('add')
     <div class="projects-container edit-button-container">
         <edit-component-button v-if="authUser" :btnType="'add'" @click="modalType = 'add'" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"></edit-component-button>
         <project-modal v-if="authUser" :modalType="modalType"></project-modal>
-        <project v-for="i in 8" @changeModalType="(value) => modalType = value"></project>
+        <project v-for="project in projects" :project="project"  @changeModalType="(value) => modalType = value"></project>
     </div>
 </template>
 

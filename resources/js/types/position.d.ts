@@ -2,7 +2,7 @@ import { GetterTree, MutationTree, ActionTree, ActionContext } from "vuex";
 import { RootState } from "../vuex";
 
 export interface Position {
-    id: number;
+    id: number | null;
     title: string;
     description: string;
     company: string;

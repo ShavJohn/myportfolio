@@ -6,7 +6,8 @@ import store from "./vuex";
 import Datepicker from 'vuejs3-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -14,7 +15,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-library.add(fas)
+library.add(fas, fab)
 
 gsap.registerPlugin(ScrollTrigger);
 

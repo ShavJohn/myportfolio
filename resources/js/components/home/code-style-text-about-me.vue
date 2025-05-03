@@ -3,38 +3,48 @@ import { computed } from "vue";
 import EditComponentButton from "../main/edit-component-button.vue";
 import codeStyleModal from "./modals/code-style-modal.vue";
 import { useStore } from "vuex";
-import type { Entry, DitailsEntry } from "../../types/home";
+import type { DitailsEntry } from "../../types/home";
+import { Position } from "../../types/position";
+import moment from "moment";
 
 type Skill = {
     key: string,
     value: string
 }
 
+const positions = computed(() => store.getters["position/positionsArrayGetter"])
+
 const store = useStore();
 
+function dataFromat(startDate: string, endDate: string) {
+    return `${moment(startDate).format("YYYY MMM")} - ${moment(endDate).format("YYYY MMM")}`
+}
+
 const aboutMe = computed(() => store.state.home.myDitailsArray);
-const education = computed(() => store.state.home.educationArray);
-const workExperience = computed(() => store.state.home.workArray);
+
+const education = computed(() => positions.value.filter((pos: Position) => pos.type === 'education'))
+const workExperience = computed(() => positions.value.filter((pos: Position) => pos.type === 'work'))
+
 const skills = computed(() => store.getters["skill/skillsGetter"]);
 const authUser = computed(() => store.getters['auth/authUserGetter'])
-
-const eduacationLines = computed(() => {
-    return education.value.map((edu: Entry, index: number) => 
-        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${edu.starDate}-${edu.endDate}': '${edu.inputText}'</span> }${index < education.value.length - 1 ? "," : ""}`
-    );
-});
-
-const workExperienceLines = computed(() => {
-    return workExperience.value.map((job: Entry, index: number) => 
-        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${job.starDate}-${job.endDate}': '${job.inputText}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
-    );
-});
 
 const aboutMeLines = computed(() => {
     return aboutMe.value.map((text: DitailsEntry, index: number) => 
         `<span class='editor-dots'>......</span><span class="editor-this">this</span>.<span class="editor-value-name">${text.key}</span> <span class="editor-equal">=</span> <span class="editor-string">${text.value};</span>${index < aboutMe.value.length - 1 ? "," : ""}`
     )
 })
+
+const eduacationLines = computed(() => {
+    return education.value.map((edu: Position, index: number) => 
+        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${dataFromat(edu.startDate, edu.endDate)}': '${edu.title} at ${edu.company}'</span> }${index < education.value.length - 1 ? "," : ""}`
+    );
+});
+
+const workExperienceLines = computed(() => {
+    return workExperience.value.map((job: Position, index: number) => 
+        `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${dataFromat(job.startDate, job.endDate)}': '${job.title} at ${job.company}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
+    );
+});
 
 const codeLines = computed(() => [
     `<span class='editor-class'>class </span><span class='editor-class-name'>ShavJohn</span> { `,

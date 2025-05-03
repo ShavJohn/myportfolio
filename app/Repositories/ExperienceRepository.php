@@ -44,7 +44,7 @@ class ExperienceRepository implements ExperienceInterface
      */
     public function get($id): Experience
     {
-        return $this->model->where('id', $id)->get();
+        return $this->model->where('id', $id)->first();
     }
 
     /**

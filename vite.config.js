@@ -13,7 +13,7 @@ export default defineConfig({
     build: {
         chunkSizeWarningLimit: 1700,
         outDir: 'public/build',
-        manifest: true,
+        manifest: "manifest.json",
         rollupOptions: {
             input: [
                 'resources/js/app.ts',

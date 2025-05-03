@@ -2,12 +2,27 @@
 import { ref, onMounted, computed } from "vue";
 import EditRemoveElement from "../main/edit-remove-element.vue";
 import { useStore } from "vuex";
+import { Project } from "../../types/project";
 
 const imagePrefix =  window.imagePrefix
 
-defineEmits<{
+const emit = defineEmits<{
     ( e: 'changeModalType', value: string ): void
 }>()
+
+interface Props {
+    project?: Project; // Optional prop with default value
+}
+
+
+const props = withDefaults(defineProps<Props>(), {
+    project: () => ({
+        id: null,
+        name: '',
+        url: '',
+        image: ''
+    }),
+});
 
 const store = useStore<any>()
 
@@ -67,6 +82,11 @@ onMounted(() => {
     }
 });
 
+function openEditRemoveModal(type: string) {
+    store.commit('project/projectSetter', props.project)
+    emit('changeModalType', type)
+}
+
 </script>
 
 
@@ -74,12 +94,12 @@ onMounted(() => {
     <div class="image-container actions-btn-container" ref="container" @mousemove="handleMouseMove" @mouseleave="resetTransform">
         <edit-remove-element v-if="authUser">
             <template #buttons>
-                <button class="action-btn" @click="$emit('changeModalType', 'edit')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-                <button class="action-btn" @click="$emit('changeModalType', 'remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
+                <button class="action-btn" @click="openEditRemoveModal('edit')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+                <button class="action-btn" @click="openEditRemoveModal('remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
             </template>
         </edit-remove-element>
-        <img ref="image" :src="`${imagePrefix}/shavjohn_logo.png`" alt="3D Hover Effect" class="hover-image" />
-        <div ref="text" class="hover-text">Your Text Here</div>
+        <img ref="image" :src="`${imagePrefix}/${project.image}`" alt="3D Hover Effect" class="hover-image" />
+        <div ref="text" class="hover-text">{{ project.name }}</div>
     </div>
 </template>
 

@@ -56,7 +56,6 @@ async function handleSubmit() {
 
     // Optional: Reset form
     store.commit("position/positionSetter", {
-        id: 0,
         title: "",
         desciption: "",
         company: "",
@@ -67,8 +66,8 @@ async function handleSubmit() {
     });
 }
 
-
 </script>
+
 <template>
     <div id="about-me-modal" class="modal fade"  tabindex="-1" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">

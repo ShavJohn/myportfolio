@@ -2,7 +2,7 @@ import { ActionContext, GetterTree, MutationTree, ActionTree } from "vuex";
 import { RootState } from "../vuex";
 
 export type Project = {
-    id: number;
+    id: number | null;
     name: string;
     url: string;
     image: string;
@@ -20,7 +20,7 @@ export interface ProjectGetter extends GetterTree<ProjectState, RootState> {
 
 export interface ProjectMutation extends MutationTree<ProjectState> {
     projectSetter(state: ProjectState, data: Project): void;
-    projectsSetter(state: ProjectState, data: Project): void;
+    projectsSetter(state: ProjectState, data: Project[]): void;
 }
 
 export interface ProjectAction extends ActionTree<ProjectState, RootState> {

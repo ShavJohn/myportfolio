@@ -15,8 +15,11 @@ Route::group(['middleware' => 'api'], function() {
     //Skills
     Route::get('/get-skills', 'App\Http\Controllers\SkillController@getSkills');
 
+    //Project
+    Route::get('/get-projects', 'App\Http\Controllers\ProjectController@getProjects');
+
     //Experinece
-    Route::get('/get-all-experinece', 'App\Http\Controllers\ExperienceController@getAll');
+    Route::get('/get-experineces', 'App\Http\Controllers\ExperienceController@getAll');
 
     //Settings
     Route::get('/get-settings', 'App\Http\Controllers\SettingController@getSettings');
@@ -36,10 +39,17 @@ Route::group(['middleware' => 'api'], function() {
         Route::post('/store-skill', 'App\Http\Controllers\SkillController@storeSkill');
         Route::delete('/remove-skill/{skillId}', 'App\Http\Controllers\SkillController@removeSkill');
 
+        //Project
+        Route::post('/create-project', 'App\Http\Controllers\ProjectController@storeProject');
+        Route::put('/update-project/{projectId}', 'App\Http\Controllers\ProjectController@updateProject');
+        Route::delete('/remove-project/{projectId}', 'App\Http\Controllers\ProjectController@deleteProject');
+        Route::post('/upload-project-image', 'App\Http\Controllers\ProjectController@uploadProjectImage');
+        Route::delete('/delete-prokect-image/{image}', 'App\Http\Controllers\ProjectController@deleteProjectImage');
+
         //Positions
         Route::post('/experience-store', 'App\Http\Controllers\ExperienceController@store');
-        Route::put('/experience/{id}', 'App\Http\Controllers\ExperienceController@update');
-        Route::delete('/experience/{id}', 'App\Http\Controllers\ExperienceController@delete');
+        Route::put('/update-experience/{id}', 'App\Http\Controllers\ExperienceController@update');
+        Route::delete('/remove-experience/{id}', 'App\Http\Controllers\ExperienceController@delete');
 
         //home
         Route::post('/title-text-update-or-create', 'App\Http\Controllers\SettingController@storeOrUpdate');

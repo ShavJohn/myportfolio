@@ -12,7 +12,7 @@ interface ErrorResponse {
 
 const state: PositionState = {
     position: {
-        id: 0,
+        id: null,
         title: '',
         description: '',
         company: '',
@@ -92,7 +92,7 @@ const actions: PositionActions = {
 
     async getPositions({ commit, dispatch }) {
         try {
-            const res = await axiosInstance.get('/get-all-experinece');
+            const res = await axiosInstance.get('/get-experineces');
 
             if (res && res.data && res.data.success) {
                 commit('setAllPositions', res.data.data); // assuming `data` contains the array
@@ -124,7 +124,7 @@ const actions: PositionActions = {
 
     async updatePosition({ dispatch }, data: Position) {
         try {
-            const res = await axiosInstance.put(`/experience/${data.id}`, data);
+            const res = await axiosInstance.put(`/update-experience/${data.id}`, data);
 
             if (res && res.data && res.data.success) {
                 dispatch('getPositions');
@@ -162,7 +162,7 @@ const actions: PositionActions = {
 
     async deletePosition({ dispatch }, id: number) {
         try {
-            const res = await axiosInstance.delete(`/experience/${id}`);
+            const res = await axiosInstance.delete(`/remove-experience/${id}`);
 
             if (res && res.data && res.data.success) {
                 dispatch('getPositions');

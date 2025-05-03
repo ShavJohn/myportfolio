@@ -42,13 +42,6 @@ class FileManagerService
             // Generate random hashed filename
             $hashName = time() . '_' . str_shuffle('local_project_image') . '.webp';
 
-
-            $data = [
-                'file' => $file,
-                'image' => $image,
-                'hashName' => $hashName,
-            ];
-
             Storage::disk('public')->put($hashName, (string) $image);
 
             return [

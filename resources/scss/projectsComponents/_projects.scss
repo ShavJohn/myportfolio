@@ -52,3 +52,21 @@
     }
 
 }
+
+.image-upload-conatiner {
+    position: relative;
+
+    svg {
+        padding: 15px 35px;
+        border-radius: 20px;
+        position: absolute;
+        right: 0;
+        font-size: 20px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+        border-radius: 5%;
+    }
+}

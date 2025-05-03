@@ -56,6 +56,7 @@ async function getGeneralData() {
     await store.dispatch('settings/getSettings');
     await store.dispatch('skill/getSkills');
     await store.dispatch('position/getPositions');
+    await store.dispatch('project/getProjects');
     setTimeout(() => {
         loader.value = false
     }, 1000)
