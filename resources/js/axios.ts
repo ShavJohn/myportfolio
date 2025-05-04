@@ -4,7 +4,6 @@ const instance = axios.create({
     baseURL: '/api',
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     }
 })
 
@@ -13,6 +12,15 @@ const token = document.head.querySelector('meta[name="csrf-token"]') as HTMLMeta
 if (token) {
     instance.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
 }
+
+// ✅ Always attach the latest token from localStorage
+instance.interceptors.request.use(config => {
+    const accessToken = localStorage.getItem('access_token');
+    if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+});
 
 instance.interceptors.response.use(
     response => response,
