@@ -28,6 +28,7 @@
     }
 
     .about-me-details-container {
+        max-width: 80%;
 
         .about-me {
             opacity: 0;
@@ -68,4 +69,10 @@
 
     }
 
+}
+
+@media screen and (max-width: 700px) { 
+    .about-me-details-container {
+        max-width: 90%;
+    }
 }
