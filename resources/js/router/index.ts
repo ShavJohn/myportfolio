@@ -47,6 +47,13 @@ router.beforeEach(async (toRoute, fromRoute, next) => {
         }
         
 
+        if(toRoute.name === 'Dashboard') {
+            if(!store.getters['auth/authUserGetter'] || !store.getters['auth/accessTokenGetter']) {
+                return  next({name: 'Home'})
+            }
+        }
+
+
     } else {
         window.document.title = 'Home';
     }

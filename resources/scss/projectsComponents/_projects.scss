@@ -37,7 +37,7 @@
         border-radius: 20px;
     }
 
-    .hover-text {
+    .image-text-hover-effect {
         position: absolute;
         left: -50px;
         top: 70%;
@@ -49,6 +49,7 @@
         pointer-events: none; /* Prevent text from interfering with mouse events */
         transform: translateZ(0);
         transition: transform 0.2s ease-out;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7), 0 0 10px rgba(0, 0, 0, 0.5);
     }
 
 }

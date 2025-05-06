@@ -1,10 +1,24 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { Setting } from '../../types/settings';
 
 const store = useStore<any>();
 const loading = ref(false);
-const imagePrefix = window.imagePrefix;
+
+const settings = computed(() => store.getters['settings/settingsGetter'])
+
+const logo = settingByKey('logo');
+
+function settingByKey(key: string) {
+    return computed(() => {
+        return settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: '',
+            value: '',
+            json_value: null
+        };
+    });
+}
 
 const email = reactive({
     name: '',
@@ -62,7 +76,7 @@ async function sendMessage() {
     <div class="contact-me-container">
         <div class="contact-me-inner-container">
             <div class="image-container">
-                <img ref="image" :src="`${imagePrefix}/shavjohn_logo.png`" alt="3D Hover Effect"  />
+                <img v-if="logo.value" ref="image" :src="`storage/${logo.value}`" alt="3D Hover Effect"  />
             </div>
             <div class="form-container">
                 <form  @submit.prevent="sendMessage">

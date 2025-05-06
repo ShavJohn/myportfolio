@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
+import { Setting } from "../../types/settings";
 
 const store = useStore<any>()
 
@@ -20,30 +21,29 @@ const closeMenu = () => {
     isMobileMenuOpen.value = false;
 };
 
-function runMyCode() {
+const settings = computed(() => store.getters['settings/settingsGetter'])
 
-    let arr = [5, 2, 3, 10, 24, 2, 7, 65, 23]
-    let target = 9;
-    let map = new Map();
-    for (let i = 0; i < arr.length; i++) {
-        let complement = target - arr[i];
-        if (map.has(complement)) {
-            return [map.get(complement), i];  // Return indices
-        }
-
-        map.set(arr[i], i);
-    }
-    return null;
-
+function settingByKey(key: string) {
+    return computed(() => {
+        return settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: '',
+            value: '',
+            json_value: null
+        };
+    });
 }
 
+const logo = settingByKey('logo');
 
 </script>
 
 <template>
     <header class="header">
         <nav class="nav">
-            <div class="logo">ShavJohn</div>
+            <div class="logo">
+                <img :src="`storage/${logo.value}`" alt="shavjohn-logo">
+                ShavJohn
+            </div>
 
             <!-- Mobile Sidebar Menu -->
             <ul :class="['nav-links', { open: isMobileMenuOpen }]">

@@ -57,11 +57,9 @@ function handleMouseMove(event: MouseEvent) {
 function resetTransform() {
     if (image.value) {
         image.value.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)";
-        image.value.style.boxShadow = "0px 0px 20px rgba(0, 0, 0, 0.2)"; // Reset shadow when not hovering
     }
     if (text.value) {
         text.value.style.transform = "translateZ(0) rotateX(0deg) rotateY(0deg)"; // Reset text transform
-        text.value.style.textShadow = "none"; // Reset text shadow
     }
 }
 
@@ -99,7 +97,7 @@ function openEditRemoveModal(type: string) {
             </template>
         </edit-remove-element>
         <img ref="image" :src="`${imagePrefix}/${project.image}`" alt="3D Hover Effect" class="hover-image" />
-        <div ref="text" class="hover-text">{{ project.name }}</div>
+        <div ref="text" class="image-text-hover-effect">{{ project.name }}</div>
     </div>
 </template>
 

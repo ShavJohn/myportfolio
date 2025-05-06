@@ -13,14 +13,14 @@
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 35px;
-    height: 1600px;
+    height: 100%;
     justify-content: flex-start;
     max-width: 1200px;
     overflow: visible;
     position: relative;
     width: 100%;
     z-index: 1;
-    padding: 0 0 300px;
+    padding: 300px 0 300px;
 
     .text-scroll-area-container-inner {
 
@@ -35,7 +35,6 @@
         justify-content: center;
         max-width: 86%;
         overflow: hidden;
-        padding: 300px 0 0;
         position: sticky;
         top: 0;
         width: 100%;

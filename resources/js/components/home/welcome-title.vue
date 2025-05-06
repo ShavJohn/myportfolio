@@ -72,7 +72,7 @@ function startGlitchLoop() {
         },
         });
 
-        glitchTimeline.to({}, { duration: 3, onComplete: glitchAndChange });
+        glitchTimeline.to({}, { duration: 6, onComplete: glitchAndChange });
     }
 
     // Set first word and start

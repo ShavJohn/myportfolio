@@ -43,7 +43,7 @@ async function runScrollAnimation() {
         scrollTrigger: {
             trigger: "body",
             start: "top+=700px",
-            end: "top+=1700px",
+            end: "top+=1200px",
             scrub: 1,
         }
     });
