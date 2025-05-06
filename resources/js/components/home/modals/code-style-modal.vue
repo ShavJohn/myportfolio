@@ -1,42 +1,53 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from "vue";
 import MpModal from "../../main/mp-modal.vue";
-import { useStore } from "vuex";
+import { Computed, useStore } from "vuex";
+import { Setting } from "../../../types/settings";
 
 const store = useStore();
 
-export interface DitailsEntry {
-    key: string,
-    value: string
-}
-
-interface Entry {
-    inputText: string;
-    starDate: string;
-    endDate: string;
-    tillNow: boolean;
-}
-
-let myDitails = reactive<DitailsEntry>({
+let setting: Setting = {
     key: '',
-    value: ''
-});
-
-const myDitailsArray = computed(() => store.state.home.myDitailsArray);
-
-function addToArr(dataType: 'myDitails' | 'education' | 'work'): void {
-     if (dataType === 'myDitails') {
-        store.commit("home/myDitailsArraySetter", { ...myDitails });
-        myDitails.key = '';
-        myDitails.value = '';
-    }
+    value: '',
+    json_value: null,
+    setting_type: 'personal_data'
 }
 
-function removeFromArr(index: number, type: 'myDitails' | 'education' | 'work'): void {
-    if (type === 'myDitails') {
-        myDitailsArray.value.splice(index, 1);
-        store.commit("home/myDitailsArraySetter", myDitailsArray.value);
-    }
+const personalSettings = computed(() => store.getters['settings/settingsGetter'].filter((setting: Setting) => setting.setting_type === 'personal_data'))
+
+function addSetting() {
+    store.dispatch('settings/crateOrUpdateSetting', setting).then((res) => {
+
+        setting = {
+            key: '',
+            value: '',
+            json_value: null,
+            setting_type: 'personal_data'
+        }
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
+}
+
+function removeData(type: string): void {
+    store.dispatch('settings/deleteSetting', type).then((res) => {
+        store.dispatch('alert/alertResponse', {
+            'type': res?.data?.type,
+            'message': res?.data?.message
+        })
+    }).catch((err) => {
+        store.dispatch('alert/alertResponse', {
+            'type': err?.data?.type,
+            'message': err?.data?.message
+        })
+    })
 }
 </script>
 
@@ -55,19 +66,19 @@ function removeFromArr(index: number, type: 'myDitails' | 'education' | 'work'):
             </div>
             <div class="w-50">
                 <div class="modal-input">
-                    <input v-model="myDitails.key" type="text" id="my-ditails-key" placeholder="Enter key" />
+                    <input v-model="setting.key" type="text" id="my-ditails-key" placeholder="Enter key" />
                 </div>
                 <div class="input-with-btn">
-                    <input v-model="myDitails.value" @keydown.enter="addToArr('myDitails')" type="text" id="my-ditails-value"
+                    <input v-model="setting.value" @keydown.enter="addSetting()" type="text" id="my-ditails-value"
                         placeholder="Enter value" />
-                    <button @click="addToArr('myDitails')">Add</button>
+                    <button @click="addSetting()">Add</button>
                 </div>
                 <div class="tags-container">
-                    <div class="tag-item" v-for="(ditail, index) in myDitailsArray" :key="index">
+                    <div class="tag-item" v-for="(ditail, index) in personalSettings" :key="index">
                         <span class="tag-text">
                             {{ ditail.key }} {{ ditail.value }}
                         </span>
-                        <font-awesome-icon @click="removeFromArr(index, 'myDitails')" icon="fa-solid fa-x" />
+                        <font-awesome-icon @click="removeData(ditail.key)" icon="fa-solid fa-x" />
                     </div>
                 </div>
             </div>
@@ -77,9 +88,6 @@ function removeFromArr(index: number, type: 'myDitails' | 'education' | 'work'):
     <template #modal-footer>
         <button type="button" class="btn btn-secondary close" data-bs-dismiss="modal" aria-label="Close">
             Close
-        </button>
-        <button class="btn btn-primary">
-            Update
         </button>
     </template>
 </mp-modal>

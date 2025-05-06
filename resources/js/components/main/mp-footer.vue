@@ -2,6 +2,7 @@
 import { ref, computed } from "vue"
 import { useStore } from "vuex";
 import { Setting } from "../../types/settings";
+import moment from "moment";
 
 const store = useStore<any>()
 
@@ -83,7 +84,7 @@ const stopBounce = () => {
             </ul>
         </div>
         <div class="all-right-reserved">
-            © Made by ShavJohn 2018.
+            © Made by ShavJohn {{ moment().format('YYYY') }}.
         </div>
     </div>
 </template>

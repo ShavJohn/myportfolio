@@ -13,7 +13,8 @@ const state: SettingsState = {
     setting: {
         key: '',
         value: '',
-        json_value: null
+        json_value: null,
+        setting_type: null
     },
     settings: [],
 }
@@ -162,6 +163,37 @@ const actions: SettingsAction = {
             throw err;
         }
     },
+    async deleteSetting(context, data) {
+        try {
+            const res = await axiosInstance.delete(`delete-setting/${data}`);
+
+            if(res && res.data.success) {
+                context.dispatch('getSettings')
+            }
+
+            return res
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                const errorData = err.response?.data as ErrorResponse;
+                const errorStatus = err.response?.status;
+        
+                if (errorData) {
+                    context.dispatch('alert/alertResponse', {
+                        type: errorData.type,
+                        status: errorStatus,
+                        message: errorData.message
+                    }, { root: true });
+                }
+            } else {
+                context.dispatch('alert/alertResponse', {
+                    type: "error",
+                    message: "An unexpected error occurred."
+                }, { root: true });
+            }
+
+            throw err;
+        }
+    }
 }
 
 const settings: Module<SettingsState, RootState> = {

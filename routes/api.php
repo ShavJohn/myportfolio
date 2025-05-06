@@ -58,6 +58,7 @@ Route::group(['middleware' => 'api'], function() {
         Route::post('/upload-logo', 'App\Http\Controllers\SettingController@uploadLogo');
         Route::delete('/delete-logo/{logo}', 'App\Http\Controllers\SettingController@deleteLogo');
         Route::put('/update-or-create', 'App\Http\Controllers\SettingController@storeOrUpdate');
+        Route::delete('/delete-setting/{settingType}', 'App\Http\Controllers\SettingController@removeSetting');
 
         //statistics
         Route::get('/get-statistics-data', 'App\Http\Controllers\StatisticsController@getStatisticsData');

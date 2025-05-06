@@ -65,7 +65,8 @@ class SettingController extends Controller
             $payloadDaya = [
                 'key' => $settingData['key'],
                 'value' => array_key_exists('value' ,$settingData) ? $settingData['value'] : '',
-                'json_value' => array_key_exists('json_value' ,$settingData) ? $settingData['json_value'] : ''
+                'json_value' => array_key_exists('json_value' ,$settingData) ? $settingData['json_value'] : '',
+                'setting_type' => array_key_exists('setting_type' ,$settingData) ? $settingData['setting_type'] : ''
             ];
 
             $this->SettingsRepo->storeOrUpdate($payloadDaya);
@@ -74,6 +75,37 @@ class SettingController extends Controller
                 'success' => 1,
                 'type' => 'success',
                 'message'  => 'Setting updated successfuly',
+            ], 200);
+        } catch(\Exception $exception) {
+            Log::error($exception);
+            $message = config('app.debug') 
+                ? $exception->getMessage()
+                : 'Something went wrong, please try again later.';
+
+            return response()->json([
+                'success' => 0,
+                'type' => 'error',
+                'message' => $message,
+            ], 500);
+        }
+    }
+
+    public function removeSetting($settingType): JsonResponse
+    {
+        try {
+            $res = $this->SettingsRepo->delete($settingType);
+
+            if($res) {
+                return response()->json([
+                    'success' => 1,
+                    'type' => 'success',
+                    'message'  => 'Setting removed successfuly',
+                ], 200);
+            }
+            return response()->json([
+                'success' => 1,
+                'type' => 'success',
+                'message'  => 'Something went wrong',
             ], 200);
         } catch(\Exception $exception) {
             Log::error($exception);

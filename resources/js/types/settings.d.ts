@@ -5,7 +5,8 @@ import { AxiosResponse } from "axios";
 export type Setting = {
     key: string,
     value: string | null,
-    json_value: JSON | null
+    json_value: JSON | null,
+    setting_type: string | null
 }
 
 export interface SettingsState {
@@ -28,4 +29,5 @@ export interface SettingsAction extends ActionTree<SettingsState, RootState> {
     logoDelete(context: ActionContext<SettingsState, RootState>, data: string): Promise<AxiosResponse<any>>;
     crateOrUpdateSetting(context: ActionContext<SettingsState, RootState>, data: Setting): Promise<AxiosResponse<any>>;
     getSettings(context: ActionContext<SettingsState, RootState>): Promise<AxiosResponse<any>>;
+    deleteSetting(context: ActionContext<SettingsState, RootState>, data: string): Promise<AxiosResponse<any>>;
 }
