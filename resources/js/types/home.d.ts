@@ -6,13 +6,6 @@ export type DitailsEntry = {
     value: string
 }
 
-export type Entry = {
-    inputText: string;
-    starDate: string;
-    endDate: string;
-    tillNow: boolean;
-}
-
 export interface HomeState {
     myDitailsArray: DitailsEntry[];
 }

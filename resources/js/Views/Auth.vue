@@ -2,8 +2,23 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { Setting } from '../types/settings';
 
 const router = useRouter();
+
+const settings = computed(() => store.getters['settings/settingsGetter'])
+
+const logo = settingByKey('logo');
+
+function settingByKey(key: string) {
+    return computed(() => {
+        return settings.value?.find((setting: Setting) => setting.key === key) ?? {
+            key: '',
+            value: '',
+            json_value: null
+        };
+    });
+}
 
 let imagePrefix = window.imagePrefix
 const store = useStore<any>()
@@ -31,7 +46,7 @@ function login(): void {
     <div class="login-page-container">
         <div class="login-container">
             <div class="image-container">
-                <img ref="image" :src="`${imagePrefix}/shavjohn_logo.png`" alt="3D Hover Effect"  />
+                <img ref="image" :src="`storage/${logo.value}`" alt="3D Hover Effect"  />
             </div>
             <div class="inputs-container">
                 <div class="input-container">

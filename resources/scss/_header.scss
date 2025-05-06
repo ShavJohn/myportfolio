@@ -33,14 +33,13 @@
 
         .nav-links {
 
-            li {
+            li.menu-item {
 
-                .menu-item {
-                    svg {
-                        margin-left: 10px;
-                    }
+                svg {
+                    margin-left: 10px;
                 }
             }
+            
         }
     }
 }
@@ -57,32 +56,13 @@
             padding: 0;
             margin: 0;
 
-            li {
-                padding: 5px;
-
-                .menu-item {
+            li.menu-item {
                     transition: color .5s ease-in-out;
-                }
+                    padding: 5px;
 
 
                 &:hover {
-                    .menu-item {
                         color: #e5e5e5;
-                    }
-                }
-
-                a {
-                    text-decoration: none;
-                    font-size: 16px;
-
-                    &:hover, &:focus {
-                        text-decoration: none;
-                        outline: none;
-                    }
-
-                    &:active, &:visited {
-                        color: #fff;
-                    }
                 }
 
             }
@@ -114,26 +94,22 @@
             transition: transform 0.4s ease-in-out;
             background-color: #0f172a;
 
-            li {
+            li.menu-item {
                 width: 100%;
                 text-align: left;
                 list-style: none;
+                color: #fff;
+                font-size: 18px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                padding-left: 25px;
+                display: block;
+                width: 100%;
+                transition: background 0.3s ease-in-out;
+                text-decoration: none;
 
-                .menu-item {
+                &:hover {
                     color: #fff;
-                    font-size: 18px;
-                    padding-top: 10px;
-                    padding-bottom: 10px;
-                    padding-left: 25px;
-                    display: block;
-                    width: 100%;
-                    transition: background 0.3s ease-in-out;
-                    text-decoration: none;
-
-                    &:hover {
-                        background-color: #5e5efa; // Highlight on hover
-                        color: #fff;
-                    }
                 }
             }
         }

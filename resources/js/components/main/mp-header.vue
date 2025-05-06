@@ -2,6 +2,9 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { Setting } from "../../types/settings";
+import { useRouter } from "vue-router";
+
+const router = useRouter()
 
 const store = useStore<any>()
 
@@ -20,6 +23,14 @@ const logout = () => store.dispatch('auth/logOut');
 const closeMenu = () => {
     isMobileMenuOpen.value = false;
 };
+
+function navigate(link: string, callBack: () => void) {
+    if(link.length) {
+        router.push({ name: link })
+    }
+    
+    callBack()
+}
 
 const settings = computed(() => store.getters['settings/settingsGetter'])
 
@@ -47,15 +58,15 @@ const logo = settingByKey('logo');
 
             <!-- Mobile Sidebar Menu -->
             <ul :class="['nav-links', { open: isMobileMenuOpen }]">
-                <li @click="$router.push({name: 'Home'})"><a href="#" class="menu-item" @click="closeMenu">Home</a></li>
-                <li @click="$router.push({name: 'AboutMe'})"><a href="#" class="menu-item" @click="closeMenu">About me</a></li>
-                <li @click="$router.push({name: 'Project'})"><a href="#" class="menu-item" @click="closeMenu">Projects</a></li>
-                <li @click="$router.push({name: 'ContactMe'})"><a href="#" class="menu-item" @click="closeMenu">Contact me</a></li>
-                <li v-if="authUser" @click="$router.push({name: 'Dashboard'})"><a href="#" class="menu-item" @click="closeMenu">Dashboard</a></li>
-                <li v-if="authUser" @click="logout"><a href="#" class="menu-item" @click="closeMenu">
+                <li class="menu-item" @click="navigate('Home', closeMenu)">Home</li>
+                <li class="menu-item" @click="navigate('AboutMe', closeMenu)">About me</li>
+                <li class="menu-item" @click="navigate('Project', closeMenu)">Projects</li>
+                <li class="menu-item" @click="navigate('ContactMe', closeMenu)">Contact me</li>
+                <li v-if="authUser" class="menu-item" @click="navigate('Dashboard', closeMenu)">Dashboard</li>
+                <li v-if="authUser" class="menu-item" @click="navigate('', logout)">
                     Logout 
                     <font-awesome-icon icon="fa-solid fa-right-from-bracket" />
-                    </a></li>
+                    </li>
             </ul>
 
             <div class="actions">

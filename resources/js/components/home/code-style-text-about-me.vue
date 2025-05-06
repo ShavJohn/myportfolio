@@ -47,7 +47,7 @@ const workExperienceLines = computed(() => {
 });
 
 const codeLines = computed(() => [
-    `<span class='editor-class'>class </span><span class='editor-class-name'>ShavJohn</span> { `,
+    `<span class='editor-class'>class </span><span class='editor-class-name'>Developer</span> { `,
     `<span class='editor-dots'>..</span><span class='editor-comment'>// I create, I develop, I learn.</span>`,
     `<span class='editor-dots'>....</span><span class='editor-function'>constructor</span>() {`,
     ...aboutMeLines.value,
