@@ -16,8 +16,16 @@ const positions = computed(() => store.getters["position/positionsArrayGetter"])
 
 const store = useStore();
 
-function dataFromat(startDate: string, endDate: string) {
-    return `${moment(startDate).format("YYYY MMM")} - ${moment(endDate).format("YYYY MMM")}`
+function formatDateRange(start: string, end: string, tillNow: boolean): string {
+    const formattedStart = moment(start).format("MMM YYYY");
+    let formattedEnd = ''
+    console.log(end)
+    if(tillNow) {
+        formattedEnd = 'Present'
+    } else {
+        formattedEnd =  moment(end).format("MMM YYYY");
+    }
+    return `${formattedStart} - ${formattedEnd}`;
 }
 
 const aboutMe = computed(() => store.state.home.myDitailsArray);
@@ -42,7 +50,7 @@ const aboutMeLines = computed(() => {
 const eduacationLines = computed(() => {
     if(education.value && education.value.length) {
         return education.value.map((edu: Position, index: number) => 
-            `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${dataFromat(edu.startDate, edu.endDate)}': '${edu.title} at ${edu.company}'</span> }${index < education.value.length - 1 ? "," : ""}`
+            `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${formatDateRange(edu.startDate, edu.endDate, edu.tillNow)}': '${edu.title} at ${edu.company}'</span> }${index < education.value.length - 1 ? "," : ""}`
         );
     }
     return []
@@ -51,7 +59,7 @@ const eduacationLines = computed(() => {
 const workExperienceLines = computed(() => {
     if(workExperience.value && workExperience.value.length) {
         return workExperience.value.map((job: Position, index: number) => 
-            `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${dataFromat(job.startDate, job.endDate)}': '${job.title} at ${job.company}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
+            `<span class='editor-dots'>........</span>{ <span class='editor-string'>'${formatDateRange(job.startDate, job.endDate, job.tillNow)}': '${job.title} at ${job.company}'</span> }${index < workExperience.value.length - 1 ? "," : ""}`
         );
     }
     return []

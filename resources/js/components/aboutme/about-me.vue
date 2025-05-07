@@ -50,9 +50,15 @@ function updateScrollProgress() {
     }
 }
 
-function formatDateRange(start: string, end: string): string {
+function formatDateRange(start: string, end: string, tillNow: boolean): string {
     const formattedStart = moment(start).format("MMM YYYY");
-    const formattedEnd =  moment(end).format("MMM YYYY");
+    let formattedEnd = ''
+    console.log(end)
+    if(tillNow) {
+        formattedEnd = 'Present'
+    } else {
+        formattedEnd =  moment(end).format("MMM YYYY");
+    }
     return `${formattedStart} - ${formattedEnd}`;
 }
 
@@ -124,7 +130,7 @@ onBeforeUnmount(() => {
                 </edit-remove-element>
                 <div class="about-me-year">
                     <div class="company-name">{{ position.company }}</div>
-                    <div class="year">{{ formatDateRange(position.startDate, position.endDate) }}</div>
+                    <div class="year">{{ formatDateRange(position.startDate, position.endDate, position.tillNow) }}</div>
                 </div>
                 <div class="about-me-details">
                     <h1 class="job-title">{{ position.title }}</h1>
