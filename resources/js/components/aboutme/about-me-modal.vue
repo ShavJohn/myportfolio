@@ -20,11 +20,8 @@ const position = computed({
 const tillNow = computed(() => position.value.tillNow)
 
 watch(() => tillNow.value, (val) => {
-    console.log(val)
     if (val) {
-        console.log(val, 878789798798)
         position.value.endDate = ''
-        console.log(position.value.endDate)
     }
 })
 
