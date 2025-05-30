@@ -85,6 +85,12 @@ function openEditRemoveModal(type: string) {
     emit('changeModalType', type)
 }
 
+function openUrl(project: Project) {
+    if(project && project.url) {
+        window.open(project.url, '_blank')
+    }
+}
+
 </script>
 
 
@@ -96,8 +102,8 @@ function openEditRemoveModal(type: string) {
                 <button class="action-btn" @click="openEditRemoveModal('remove')" type="button" data-bs-toggle="modal" data-bs-target="#project-modal"><font-awesome-icon icon="fa-solid fa-x" /></button>
             </template>
         </edit-remove-element>
-        <img ref="image" :src="`${imagePrefix}/${project.image}`" alt="3D Hover Effect" class="hover-image" />
-        <div ref="text" class="image-text-hover-effect">{{ project.name }}</div>
+        <img  @click="openUrl(project)" ref="image" :src="`${imagePrefix}/${project.image}`" alt="3D Hover Effect" class="hover-image" />
+        <div @click="openUrl(project)" ref="text" class="image-text-hover-effect">{{ project.name }}</div>
     </div>
 </template>
 
